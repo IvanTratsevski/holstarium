@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import type { District, MapSlotView } from "@/types";
 import styles from "./DistrictMap.module.css";
+import { withBase } from "@/lib/withBase";
 
 type Props = { district: District; slots: MapSlotView[] };
 
@@ -48,7 +49,7 @@ export default function DistrictMap({ district, slots }: Props) {
             >
               {/* фон: настоящая карта или заглушка */}
               {district.mapImage ? (
-                <image href={district.mapImage} width={w} height={h} />
+                <image href={withBase(district.mapImage)} width={w} height={h} />
               ) : (
                 <>
                   <defs>

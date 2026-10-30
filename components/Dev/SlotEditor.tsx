@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import type { KeyboardEvent, PointerEvent } from "react";
 import type { District, MapSlot } from "@/types";
 import styles from "./SlotEditor.module.css";
+import { withBase } from "@/lib/withBase";
 
 type Point = { id: string; x: number; y: number };
 type Props = { districts: District[]; slots: MapSlot[] };
@@ -193,7 +194,7 @@ const drag = (e: PointerEvent<SVGGElement>, id: string) => {
           style={{ width: `${zoom}%` }}
         >
           {district.mapImage ? (
-            <image href={district.mapImage} width={w} height={h} />
+            <image href={withBase(district.mapImage)} width={w} height={h} />
           ) : (
             <>
               <defs>
