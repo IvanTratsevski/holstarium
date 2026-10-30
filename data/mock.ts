@@ -1,4 +1,4 @@
-import type { District, MapSlot, StallData } from "@/types";
+import type { District, MapSlot, SocialLink, StallData } from "@/types";
 import { pixelTheme } from "@/themes/pixel";
 
 export const themes = { [pixelTheme.id]: pixelTheme };
@@ -36,11 +36,13 @@ const makeStall = (
   signText: string,
   accentColor: string,
   artworksCount: number,
-  bio?: string
+  bio?: string,
+  links?: SocialLink[]
 ): StallData => ({
   slug,
   artistName,
   bio,
+  links,
   signText,
   accentColor,
   themeId: "pixel",
@@ -50,8 +52,12 @@ const makeStall = (
 
 export const stalls: StallData[] = [
   makeStall(
-    "anna", "Анна", "Лавка Анны", "#e07a5f", 8,
-    "Рисую уютные городские пейзажи и маленькие истории про людей, которые живут в этих домах. Работаю в пиксель-арте уже пять лет, люблю тёплую палитру и вечерний свет в окнах."
+  "anna", "Анна", "Лавка Анны", "#e07a5f", 8,
+  "Рисую уютные городские пейзажи и маленькие истории про людей, которые живут в этих домах. Работаю в пиксель-арте уже пять лет, люблю тёплую палитру и вечерний свет в окнах.",
+  [
+    { label: "Telegram", url: "https://t.me/example" },
+    { label: "Портфолио", url: "example.com/anna" },
+  ]
   ),
   makeStall("ivan", "Иван", "Пиксели Ивана", "#81b29a", 3, "Ретро-игры, спрайты и персонажи."),
   makeStall("maria", "Мария", "Мария рисует", "#6d597a", 6, "Иллюстрации к настольным играм и открытки."),

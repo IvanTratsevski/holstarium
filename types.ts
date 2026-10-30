@@ -6,7 +6,7 @@ export type SlotPosition = {
   h: number; // высота, %
   rotate?: number; // наклон рамки, градусы
 };
-
+export type SocialLink = { label: string; url: string };
 export type CounterVariant = {
   id: string;
   name: string;
@@ -35,12 +35,14 @@ export type Artwork = {
   aspectRatio?: number; // ширина / высота, нужна для заглушек и против «прыжков» вёрстки
   sortOrder: number;
   isFeatured: boolean;
+  tags?: string[]; // ключи тегов (нормализованный текст)
 };
 
 export type StallData = {
   slug: string;
   artistName: string;
   bio?: string; // новое: короткое описание автора
+  links?: SocialLink[]; // новое
   signText: string;
   accentColor: string;
   themeId: string;
@@ -100,4 +102,19 @@ export type FeedItem = Artwork & {
 export type LightboxItem = Artwork & {
   authorName?: string;
   authorHref?: string;
+  tagList?: { key: string; name: string }[]; // теги с отображаемыми названиями
+};
+
+export type OfficialTag = {
+  key: string;      // нормализованное название, оно же ключ
+  name: string;     // как показывать
+  group: "subject" | "technique";
+  aliases?: string[];
+};
+
+export type TagInfo = {
+  key: string;
+  name: string;
+  count: number;    // сколько работ отмечено этим тегом
+  official: boolean;
 };

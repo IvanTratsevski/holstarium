@@ -25,5 +25,19 @@ export const pixelTheme: Theme = {
         { x: 68, y: 56, w: 24, h: 32, rotate: 2 },
       ],
     },
+    {
+      id: "shelves",
+      name: "Две полки",
+      slots: [
+        { x: 6, y: 14, w: 20, h: 30, rotate: -1 },
+        { x: 28, y: 14, w: 20, h: 30, rotate: 1 },
+        { x: 50, y: 14, w: 20, h: 30, rotate: -1 },
+        { x: 72, y: 14, w: 20, h: 30, rotate: 1 },
+        { x: 6, y: 56, w: 20, h: 30, rotate: 1 },
+        { x: 28, y: 56, w: 20, h: 30, rotate: -1 },
+        { x: 50, y: 56, w: 20, h: 30, rotate: 1 },
+        { x: 72, y: 56, w: 20, h: 30, rotate: -1 },
+      ],
+    },
   ],
 };
