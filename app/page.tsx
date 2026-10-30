@@ -13,6 +13,9 @@ export default function Home() {
           </li>
         ))}
       </ul>
+      <p>
+  <Link href="/feed">Смотреть все работы подряд →</Link>
+</p>
     </main>
   );
 }

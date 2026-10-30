@@ -4,6 +4,7 @@ import DistrictView from "@/components/DistrictMap/DistrictView";
 import { districts, slots, stalls } from "@/data/mock";
 import type { MapSlotView } from "@/types";
 import { getPreviews } from "@/lib/stallPreview";
+import { buildFeed } from "@/lib/feed";
 
 export function generateStaticParams() {
   return districts.map((d) => ({ slug: d.slug }));
@@ -16,6 +17,8 @@ export default async function DistrictPage({
 }) {
   const { slug } = await params;
   const district = districts.find((d) => d.slug === slug);
+  const works = buildFeed(stalls, slots, districts).filter((w) => w.districtSlug === slug);
+
   if (!district) notFound();
 
   const slotViews: MapSlotView[] = slots
@@ -43,7 +46,7 @@ export default async function DistrictPage({
       </p>
       <h1>{district.name}</h1>
       <p>{district.description}</p>
-      <DistrictView district={district} slots={slotViews} />
+      <DistrictView district={district} slots={slotViews} works={works} />
     </main>
   );
 }

@@ -3,10 +3,12 @@
 import { useEffect, useRef } from "react";
 import type { Artwork } from "@/types";
 import styles from "./Lightbox.module.css";
+import Link from "next/link";
+import type { LightboxItem } from "@/types";
 
 type Props = {
-  artworks: Artwork[]; // все работы лавки по порядку
-  index: number | null; // null = закрыто
+  artworks: LightboxItem[]; // все работы по порядку
+  index: number | null;
   onClose: () => void;
   onChange: (index: number) => void;
 };
@@ -80,12 +82,19 @@ export default function Lightbox({ artworks, index, onClose, onChange }: Props) 
               />
             )}
             <figcaption className={styles.caption}>
-              <h2>{art.title}</h2>
-              {art.description && <p>{art.description}</p>}
-              <small>
-                {index! + 1} / {total}
-              </small>
-            </figcaption>
+  <h2>{art.title}</h2>
+  {art.description && <p>{art.description}</p>}
+  {art.authorName && art.authorHref && (
+    <p>
+      <Link href={art.authorHref} className={styles.author}>
+        Автор: {art.authorName} → в лавку
+      </Link>
+    </p>
+  )}
+  <small>
+    {index! + 1} / {total}
+  </small>
+</figcaption>
           </figure>
 
           {total > 1 && (

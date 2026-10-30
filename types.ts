@@ -32,6 +32,7 @@ export type Artwork = {
   description?: string; // новое
   imageUrl?: string; // пока необязательно, вместо него цветная заглушка
   placeholderColor?: string;
+  aspectRatio?: number; // ширина / высота, нужна для заглушек и против «прыжков» вёрстки
   sortOrder: number;
   isFeatured: boolean;
 };
@@ -84,4 +85,19 @@ export type MapSlotView = MapSlot & {
     artworksCount: number;
     previews: ArtworkPreview[];
   };
+};
+
+// работа в ленте: сама работа плюс данные автора и района
+export type FeedItem = Artwork & {
+  stallSlug: string;
+  artistName: string;
+  accentColor: string;
+  districtSlug: string;
+  districtName: string;
+};
+
+// то, что умеет показывать лайтбокс: работа и, по желанию, ссылка на автора
+export type LightboxItem = Artwork & {
+  authorName?: string;
+  authorHref?: string;
 };

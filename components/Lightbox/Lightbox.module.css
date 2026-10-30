@@ -120,3 +120,7 @@
     transform: none;
   }
 }
+.author {
+  color: inherit;
+  text-decoration: underline;
+}
