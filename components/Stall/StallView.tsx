@@ -1,18 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import type { StallData, Theme } from "@/types";
+import {  useState } from "react";
+import type { LightboxItem, StallData, Theme } from "@/types";
 import { getStallLayout } from "@/lib/stallLayout";
 import Lightbox from "@/components/Lightbox/Lightbox";
 import Stall from "./Stall";
 import styles from "./StallView.module.css";
+import { toTagList } from "@/lib/tags";
 
 type Props = { stall: StallData; theme: Theme };
 
 export default function StallView({ stall, theme }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { sorted, gallery } = getStallLayout(stall, theme);
-
+  
+  const lightboxItems: LightboxItem[] = sorted.map((a) => ({
+  ...a,
+  tagList: toTagList(a.tags),
+}));
   const openById = (id: string) => {
     const i = sorted.findIndex((a) => a.id === id);
     if (i !== -1) setOpenIndex(i);
@@ -44,7 +49,7 @@ export default function StallView({ stall, theme }: Props) {
       )}
 
       <Lightbox
-        artworks={sorted}
+        artworks={lightboxItems}
         index={openIndex}
         onClose={() => setOpenIndex(null)}
         onChange={setOpenIndex}

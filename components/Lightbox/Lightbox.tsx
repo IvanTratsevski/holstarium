@@ -7,13 +7,14 @@ import Link from "next/link";
 import type { LightboxItem } from "@/types";
 
 type Props = {
-  artworks: LightboxItem[]; // все работы по порядку
+  artworks: LightboxItem[];
   index: number | null;
   onClose: () => void;
   onChange: (index: number) => void;
+  onTagClick?: (key: string) => void; // если не передан, теги просто показываются
 };
 
-export default function Lightbox({ artworks, index, onClose, onChange }: Props) {
+export default function Lightbox({ artworks, index, onClose, onChange, onTagClick }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const isOpen = index !== null;
   const art = index !== null ? artworks[index] : null;
@@ -83,7 +84,22 @@ export default function Lightbox({ artworks, index, onClose, onChange }: Props) 
             )}
             <figcaption className={styles.caption}>
   <h2>{art.title}</h2>
-  {art.description && <p>{art.description}</p>}
+  {art.description && <p>{art.description}</p>}\
+  {art.tagList && art.tagList.length > 0 && (
+  <ul className={styles.tags}>
+    {art.tagList.map((t) => (
+      <li key={t.key}>
+        {onTagClick ? (
+          <button type="button" className={styles.tag} onClick={() => onTagClick(t.key)}>
+            #{t.name}
+          </button>
+        ) : (
+          <span className={styles.tag}>#{t.name}</span>
+        )}
+      </li>
+    ))}
+  </ul>
+)}
   {art.authorName && art.authorHref && (
     <p>
       <Link href={art.authorHref} className={styles.author}>

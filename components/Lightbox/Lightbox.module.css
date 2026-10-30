@@ -124,3 +124,35 @@
   color: inherit;
   text-decoration: underline;
 }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  display: inline-block;
+  min-height: 2rem;
+  padding: 0.3rem 0.8rem;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+button.tag {
+  cursor: pointer;
+}
+
+button.tag:hover,
+button.tag:focus-visible {
+  background: rgba(255, 255, 255, 0.3);
+}

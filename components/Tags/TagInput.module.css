@@ -1,0 +1,95 @@
+.root {
+  position: relative;
+  max-width: 32rem;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #666;
+  border-radius: 8px;
+  cursor: text;
+}
+
+.box:focus-within {
+  border-color: #e07a5f;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.3rem 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(224, 122, 95, 0.25);
+  font-size: 0.9rem;
+}
+
+.chip button {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chip button:hover,
+.chip button:focus-visible {
+  background: rgba(128, 128, 128, 0.35);
+}
+
+.input {
+  flex: 1 1 8rem;
+  min-width: 6rem;
+  padding: 0.3rem 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  margin: 0.25rem 0 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--background, #1f1f1f);
+  color: var(--foreground, #eee);
+  border: 1px solid #666;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.optionActive {
+  background: rgba(224, 122, 95, 0.3);
+}
+
+.option small {
+  opacity: 0.65;
+}
+
+.help {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}

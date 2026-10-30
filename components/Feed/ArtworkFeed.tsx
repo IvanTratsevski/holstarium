@@ -3,31 +3,63 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { FeedItem, LightboxItem } from "@/types";
+import { MIN_CUSTOM_TAG_COUNT } from "@/data/tags";
+import { buildCatalog, toTagList } from "@/lib/tags";
 import { withBase } from "@/lib/withBase";
 import Lightbox from "@/components/Lightbox/Lightbox";
 import styles from "./ArtworkFeed.module.css";
 
+const TAGS_COLLAPSED = 8;
+
 type Props = {
   items: FeedItem[];
-  districts?: { slug: string; name: string }[]; // для фильтра; без него фильтра нет
+  districts?: { slug: string; name: string }[]; // для фильтра; без него фильтра по районам нет
 };
 
 export default function ArtworkFeed({ items, districts = [] }: Props) {
   const [district, setDistrict] = useState<string>("all");
+  const [tag, setTag] = useState<string | null>(null);
+  const [showAllTags, setShowAllTags] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const visible = useMemo(
+  const pickDistrict = (slug: string) => {
+    setDistrict(slug);
+    setTag(null);
+  };
+
+  const inDistrict = useMemo(
     () => (district === "all" ? items : items.filter((i) => i.districtSlug === district)),
     [items, district]
   );
 
-  // то, что получает лайтбокс: те же работы, но со ссылкой на автора
-  const lightboxItems: LightboxItem[] = useMemo(
+  // Чипы тегов считаются по выбранному району.
+  // Официальные показываем всегда, самодельные только когда их достаточно;
+  // выбранный тег всегда виден и стоит первым.
+  const chips = useMemo(
+    () =>
+      buildCatalog(inDistrict)
+        .filter(
+          (t) =>
+            t.count > 0 &&
+            (t.official || t.count >= MIN_CUSTOM_TAG_COUNT || t.key === tag)
+        )
+        .sort((a, b) => Number(b.key === tag) - Number(a.key === tag) || b.count - a.count),
+    [inDistrict, tag]
+  );
+  const shownChips = showAllTags ? chips : chips.slice(0, TAGS_COLLAPSED);
+
+  const visible = useMemo(
+    () => (tag ? inDistrict.filter((i) => i.tags?.includes(tag)) : inDistrict),
+    [inDistrict, tag]
+  );
+
+  const lightboxItems = useMemo<LightboxItem[]>(
     () =>
       visible.map((i) => ({
         ...i,
         authorName: i.artistName,
         authorHref: `/stall/${i.stallSlug}`,
+        tagList: toTagList(i.tags),
       })),
     [visible]
   );
@@ -42,7 +74,7 @@ export default function ArtworkFeed({ items, districts = [] }: Props) {
             type="button"
             aria-pressed={district === "all"}
             className={district === "all" ? styles.active : ""}
-            onClick={() => setDistrict("all")}
+            onClick={() => pickDistrict("all")}
           >
             Все ({items.length})
           </button>
@@ -52,11 +84,36 @@ export default function ArtworkFeed({ items, districts = [] }: Props) {
               type="button"
               aria-pressed={district === d.slug}
               className={district === d.slug ? styles.active : ""}
-              onClick={() => setDistrict(d.slug)}
+              onClick={() => pickDistrict(d.slug)}
             >
               {d.name} ({countOf(d.slug)})
             </button>
           ))}
+        </div>
+      )}
+
+      {chips.length > 0 && (
+        <div className={styles.tagRow} role="group" aria-label="Фильтр по тегам">
+          {shownChips.map((t) => (
+            <button
+              key={t.key}
+              type="button"
+              aria-pressed={tag === t.key}
+              className={`${styles.tagChip} ${tag === t.key ? styles.tagActive : ""}`}
+              onClick={() => setTag(tag === t.key ? null : t.key)}
+            >
+              #{t.name} <span>{t.count}</span>
+            </button>
+          ))}
+          {chips.length > TAGS_COLLAPSED && (
+            <button
+              type="button"
+              className={styles.more}
+              onClick={() => setShowAllTags((v) => !v)}
+            >
+              {showAllTags ? "Свернуть" : `Ещё ${chips.length - TAGS_COLLAPSED}`}
+            </button>
+          )}
         </div>
       )}
 
@@ -109,6 +166,10 @@ export default function ArtworkFeed({ items, districts = [] }: Props) {
         index={openIndex}
         onClose={() => setOpenIndex(null)}
         onChange={setOpenIndex}
+        onTagClick={(key) => {
+          setTag(key);
+          setOpenIndex(null);
+        }}
       />
     </section>
   );

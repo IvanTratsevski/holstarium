@@ -7,6 +7,17 @@ const colors = ["#e07a5f", "#3d405b", "#81b29a", "#f2cc8f", "#6d597a", "#b56576"
 
 const ratios = [1, 0.75, 1.33, 0.8, 1.5, 1, 0.66, 1.25];
 
+const tagSets: string[][] = [
+  ["персонаж", "фэнтези"],
+  ["пейзаж", "ночной город"],
+  ["животные"],
+  ["цифра", "портрет"],
+  ["акварель", "пейзаж"],
+  ["sci-fi", "персонаж", "кофе"],
+  ["скетч"],
+  ["архитектура", "ночной город"],
+];
+
 const makeArtworks = (count: number, offset = 0) =>
   Array.from({ length: count }, (_, i) => ({
     id: `art-${i + 1}`,
@@ -15,6 +26,7 @@ const makeArtworks = (count: number, offset = 0) =>
     placeholderColor: colors[i % colors.length],
     aspectRatio: ratios[(i + offset) % ratios.length],
     sortOrder: i + 1,
+    tags: [...tagSets[(i + offset) % tagSets.length]],
     isFeatured: true,
   }));
 
@@ -46,9 +58,9 @@ export const stalls: StallData[] = [
   makeStall("oleg", "Олег", "Олег и точки", "#355070", 5), // без описания: проверяем отсутствие bio
   makeStall("kira", "Кира", "Киры Уголок", "#b56576", 7, "Персонажи, монстры и немного уютного хоррора."),
   makeStall("tom", "Том", "Кузница Тома", "#8d6e63", 6, "Рыцари, гербы и доспехи."),
-  makeStall("lena", "Лена", "Драконье гнездо", "#6a994e", 5, "Драконы и прочая крылатая живность."),
+  makeStall("lena", "Лена", "Драконье гнездо", "#6a994e", 5, "Драконы и прочая крылатая живность.")
 ];
-
+stalls[0].artworks[0].tags = [...(stalls[0].artworks[0].tags ?? []), "единорожки"];
 export const districts: District[] = [
   {
     slug: "pixel",
@@ -117,3 +129,4 @@ const pixelSlots: MapSlot[] = pixelPositions.map(([x, y], i) => ({
 }));
 
 export const slots: MapSlot[] = [...pixelSlots, ...medievalSlots];
+

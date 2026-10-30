@@ -101,3 +101,41 @@
 .meta small {
   opacity: 0.65;
 }
+
+/* теги: второй ряд, визуально тише, чем фильтр по районам */
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.tagChip,
+.more {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.tagChip span {
+  opacity: 0.6;
+}
+
+.tagChip:hover,
+.more:hover {
+  border-color: #e07a5f;
+}
+
+.tagActive {
+  background: rgba(224, 122, 95, 0.25);
+  border-color: #e07a5f;
+}
+
+.more {
+  border-style: dashed;
+}
