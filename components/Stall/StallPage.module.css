@@ -54,40 +54,6 @@
   }
 }
 
-.devBar {
-  position: fixed;
-  left: 50%;
-  bottom: 0.75rem;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.75rem;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.88);
-  color: #fff;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  transform: translateX(-50%);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-}
-
-.devBar button {
-  min-height: 2.25rem;
-  padding: 0.3rem 0.9rem;
-  border: 1px solid #888;
-  border-radius: 999px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.devBar button[aria-pressed="true"] {
-  border-color: #e07a5f;
-  background: #e07a5f;
-}
-
 .stallArea {
   min-width: 0; /* без этого широкий контент может растянуть колонку сетки */
 }

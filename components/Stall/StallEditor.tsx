@@ -5,6 +5,8 @@ import type { StallData, TagInfo, Theme } from "@/types";
 import { safeUrl } from "@/lib/links";
 import ArtworkManager from "./ArtworkManager";
 import styles from "./StallEditor.module.css";
+import { useSocial } from "@/components/Social/SocialProvider";
+import { setStallComments } from "@/lib/socialActions";
 
 const MAX_LINKS = 4;
 const BIO_MAX = 300;
@@ -19,6 +21,8 @@ type Props = {
 };
 
 export default function StallEditor({ stall, theme, tagCatalog, onChange, onReset }: Props) {
+  const { state: social } = useSocial();
+  const commentsOn = !social.commentsOffStalls.includes(stall.slug);
   const [tab, setTab] = useState<"design" | "works">("design");
   const links = stall.links ?? [];
   const counter = theme.counters.find((c) => c.id === stall.counterId) ?? theme.counters[0];
@@ -90,11 +94,24 @@ export default function StallEditor({ stall, theme, tagCatalog, onChange, onRese
         ))}
         {featuredCount > counter.slots.length && (
           <p className={styles.warn}>
-            Избранных работ {featuredCount}, а на прилавке помещается {counter.slots.length}.
+            Работ со звёздочкой {featuredCount}, а на прилавке помещается {counter.slots.length}.
             Остальные покажутся в блоке «Все работы».
           </p>
         )}
       </fieldset>
+)}
+{tab === "design" && (
+<fieldset className={styles.field}>
+  <legend>Комментарии</legend>
+  <label className={styles.radio}>
+    <input
+      type="checkbox"
+      checked={commentsOn}
+      onChange={(e) => setStallComments(stall.slug, e.target.checked)}
+    />
+    Разрешить комментарии под моими работами
+  </label>
+</fieldset>
 )}
 {tab === "design" && (
 

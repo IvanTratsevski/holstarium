@@ -5,21 +5,25 @@ import type { Artwork } from "@/types";
 import styles from "./Lightbox.module.css";
 import Link from "next/link";
 import type { LightboxItem } from "@/types";
+import { withBase } from "@/lib/withBase";
+import LikeButton from "@/components/Social/LikeButton";
+import SaveButton from "@/components/Social/SaveButton";
+import CommentsBar from "@/components/Comments/CommentsBar";
 
 type Props = {
   artworks: LightboxItem[];
   index: number | null;
   onClose: () => void;
   onChange: (index: number) => void;
-  onTagClick?: (key: string) => void; // если не передан, теги просто показываются
+  onTagClick?: (key: string) => void;
+  canModerate?: boolean; // новое: смотрит владелец этой лавки
 };
 
-export default function Lightbox({ artworks, index, onClose, onChange, onTagClick }: Props) {
+export default function Lightbox({artworks, index, onClose, onChange, onTagClick, canModerate = false,}: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const isOpen = index !== null;
-  const art = index !== null ? artworks[index] : null;
+  const art = index !== null ? (artworks[index] ?? null) : null;
+  const isOpen = art !== null;
   const total = artworks.length;
-
   // синхронизируем состояние React с нативным <dialog>
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -73,7 +77,7 @@ export default function Lightbox({ artworks, index, onClose, onChange, onTagClic
 
           <figure className={styles.figure}>
             {art.imageUrl ? (
-              <img src={art.imageUrl} alt={art.title} className={styles.image} />
+              <img src={withBase(art.imageUrl)} alt={art.alt || art.title} className={styles.image} />
             ) : (
               <div
                 className={styles.placeholder}
@@ -84,7 +88,14 @@ export default function Lightbox({ artworks, index, onClose, onChange, onTagClic
             )}
             <figcaption className={styles.caption}>
   <h2>{art.title}</h2>
-  {art.description && <p>{art.description}</p>}\
+  {art.description && <p>{art.description}</p>}
+  {art.ref && (
+  <div className={styles.actions}>
+    <LikeButton refKey={art.ref} />
+    <SaveButton refKey={art.ref} />
+    <CommentsBar key={art.ref} refKey={art.ref} canModerate={canModerate} />
+
+  </div>)}\
   {art.tagList && art.tagList.length > 0 && (
   <ul className={styles.tags}>
     {art.tagList.map((t) => (

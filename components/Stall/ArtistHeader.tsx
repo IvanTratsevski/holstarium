@@ -2,14 +2,16 @@ import Link from "next/link";
 import type { StallData } from "@/types";
 import { safeUrl } from "@/lib/links";
 import styles from "./ArtistHeader.module.css";
+import FollowButton from "@/components/Social/FollowButton";
 
 type Props = {
   stall: StallData;
   district?: { slug: string; name: string };
+  showFollow?: boolean;
 };
 
-export default function ArtistHeader({ stall, district }: Props) {
-  const links = (stall.links ?? []).flatMap((l) => {
+export default function ArtistHeader({ stall, district, showFollow = true }: Props) {
+    const links = (stall.links ?? []).flatMap((l) => {
     const href = safeUrl(l.url);
     return href ? [{ label: l.label.trim() || new URL(href).hostname, href }] : [];
   });
@@ -30,6 +32,7 @@ export default function ArtistHeader({ stall, district }: Props) {
           )}
           Работ: {stall.artworks.length}
         </p>
+        {showFollow && <FollowButton slug={stall.slug} />}
 
         {stall.bio && <p className={styles.bio}>{stall.bio}</p>}
 

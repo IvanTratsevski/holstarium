@@ -15,6 +15,7 @@ export default function FeedPage() {
       <ArtworkFeed
         items={items}
         districts={districts.map((d) => ({ slug: d.slug, name: d.name }))}
+        allowFollowScope
       />
     </main>
   );

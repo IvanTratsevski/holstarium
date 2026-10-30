@@ -1,0 +1,52 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(128, 128, 128, 0.7);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  border-color: #e07a5f;
+}
+
+.likeOn {
+  border-color: #ff6b81;
+  color: #ff6b81;
+}
+
+.saveOn {
+  border-color: #ffd166;
+  background: rgba(255, 209, 102, 0.18);
+}
+
+.followOff {
+  border-color: #e07a5f;
+  background: #e07a5f;
+  color: #fff;
+}
+
+.followOn {
+  border-color: #81b29a;
+}
+
+.followWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.followCount {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}

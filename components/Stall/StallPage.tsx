@@ -3,35 +3,29 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { StallData, TagInfo, Theme } from "@/types";
+import { useSocial } from "@/components/Social/SocialProvider";
 import ArtistHeader from "./ArtistHeader";
 import StallEditor from "./StallEditor";
 import StallView from "./StallView";
 import styles from "./StallPage.module.css";
 
-type Viewer = "guest" | "owner";
-
 type Props = {
   initialStall: StallData;
   theme: Theme;
-  tagCatalog: TagInfo[]; // новое
+  tagCatalog: TagInfo[];
   district?: { slug: string; name: string };
 };
 
 export default function StallPage({ initialStall, theme, tagCatalog, district }: Props) {
-      // В прототипе роль переключается вручную. В боевой версии её определит сервер по сессии.
-  const [viewer, setViewer] = useState<Viewer>("guest");
+  // В прототипе роль задаётся общей панелью внизу. В боевой версии её определит сервер по сессии.
+  const { state } = useSocial();
   const [editing, setEditing] = useState(false);
   const [stall, setStall] = useState<StallData>(initialStall);
 
-  const isOwner = viewer === "owner";
+  const isOwner = state.role === "owner";
   const isEditing = isOwner && editing;
 
   const patch = (p: Partial<StallData>) => setStall((s) => ({ ...s, ...p }));
-
-  const changeViewer = (v: Viewer) => {
-    setViewer(v);
-    if (v === "guest") setEditing(false);
-  };
 
   return (
     <div className={styles.page}>
@@ -51,29 +45,21 @@ export default function StallPage({ initialStall, theme, tagCatalog, district }:
         </div>
       )}
 
-      <ArtistHeader stall={stall} district={district} />
+      <ArtistHeader stall={stall} district={district} showFollow={!isOwner} />
 
       <div className={isEditing ? styles.withEditor : undefined}>
         {isEditing && (
           <StallEditor
-  stall={stall}
-  theme={theme}
-  tagCatalog={tagCatalog}
-  onChange={patch}
-  onReset={() => setStall(initialStall)}
-/>
+            stall={stall}
+            theme={theme}
+            tagCatalog={tagCatalog}
+            onChange={patch}
+            onReset={() => setStall(initialStall)}
+          />
         )}
-        <StallView stall={stall} theme={theme} />
-      </div>
-
-      <div className={styles.devBar} role="group" aria-label="Режим просмотра, только для прототипа">
-        <span>Прототип · смотреть как:</span>
-        <button type="button" aria-pressed={!isOwner} onClick={() => changeViewer("guest")}>
-          Гость
-        </button>
-        <button type="button" aria-pressed={isOwner} onClick={() => changeViewer("owner")}>
-          Владелец
-        </button>
+        <div className={styles.stallArea}>
+          <StallView stall={stall} theme={theme} />
+        </div>
       </div>
     </div>
   );

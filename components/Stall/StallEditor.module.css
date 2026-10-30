@@ -162,3 +162,26 @@
   opacity: 0.4;
   cursor: default;
 }
+
+.tabs {
+  display: flex;
+  margin-bottom: 1rem;
+  border: 1px solid #666;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabs button {
+  flex: 1;
+  min-height: 2.75rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.tabs button[aria-pressed="true"] {
+  background: #e07a5f;
+  color: #fff;
+}

@@ -36,6 +36,7 @@ export type Artwork = {
   sortOrder: number;
   isFeatured: boolean;
   tags?: string[]; // ключи тегов (нормализованный текст)
+  alt?: string;
 };
 
 export type StallData = {
@@ -91,6 +92,8 @@ export type MapSlotView = MapSlot & {
 
 // работа в ленте: сама работа плюс данные автора и района
 export type FeedItem = Artwork & {
+  artworkId: string; // новое: исходный id работы в лавке
+  ref: string;       // новое: уникальный ключ по всему сайту, «лавка:работа»
   stallSlug: string;
   artistName: string;
   accentColor: string;
@@ -100,6 +103,7 @@ export type FeedItem = Artwork & {
 
 // то, что умеет показывать лайтбокс: работа и, по желанию, ссылка на автора
 export type LightboxItem = Artwork & {
+  ref?: string; // новое: если есть, в лайтбоксе показываются лайк и избранное
   authorName?: string;
   authorHref?: string;
   tagList?: { key: string; name: string }[]; // теги с отображаемыми названиями
@@ -117,4 +121,24 @@ export type TagInfo = {
   name: string;
   count: number;    // сколько работ отмечено этим тегом
   official: boolean;
+};
+
+export type Comment = {
+  id: string;
+  ref: string;        // ключ работы «лавка:работа»
+  authorId: string;   // "me" для комментариев текущего пользователя
+  authorName: string;
+  text: string;
+  createdAt: number;  // миллисекунды
+  editedAt?: number;
+};
+
+export type Report = {
+  id: string;
+  commentId: string;
+  ref: string;
+  authorName: string; // кого обвиняют
+  text: string;       // копия текста на момент жалобы
+  reason: string;
+  createdAt: number;
 };

@@ -18,7 +18,9 @@ export function buildFeed(
         .sort((a, b) => a.sortOrder - b.sortOrder)
         .map((a) => ({
           ...a,
-          id: `${stall.slug}-${a.id}`, // id должен быть уникальным по всему сайту
+            id: `${stall.slug}-${a.id}`,
+            artworkId: a.id,                  // новое
+            ref: `${stall.slug}:${a.id}`,     // новое
           stallSlug: stall.slug,
           artistName: stall.artistName,
           accentColor: stall.accentColor,

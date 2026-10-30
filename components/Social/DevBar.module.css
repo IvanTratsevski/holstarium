@@ -1,0 +1,45 @@
+.bar {
+  position: fixed;
+  left: 50%;
+  bottom: 0.75rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: calc(100% - 1rem);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.88);
+  color: #fff;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.bar button {
+  min-height: 2.25rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #888;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.bar button[aria-pressed="true"] {
+  border-color: #e07a5f;
+  background: #e07a5f;
+}
+
+.bar .reset {
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .label {
+    display: none;
+  }
+}

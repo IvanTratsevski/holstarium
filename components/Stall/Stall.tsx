@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { StallData, Theme } from "@/types";
 import { getStallLayout } from "@/lib/stallLayout";
 import styles from "./Stall.module.css";
+import { withBase } from "@/lib/withBase";
 
 type Props = {
   stall: StallData;
@@ -48,7 +49,7 @@ export default function Stall({ stall, theme, onOpenArtwork }: Props) {
                 aria-label={`Открыть работу: ${art.title}`}
               >
                 {art.imageUrl ? (
-                  <img src={art.imageUrl} alt="" className={styles.image} />
+                  <img src={withBase(art.imageUrl)} alt="" className={styles.image} />
                 ) : (
                   <span
                     className={styles.placeholder}

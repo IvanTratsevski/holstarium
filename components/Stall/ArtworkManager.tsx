@@ -41,7 +41,7 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
 
   const toggleFeatured = (a: Artwork) => {
     onChange(updateArtwork(stall.artworks, a.id, { isFeatured: !a.isFeatured }));
-    setStatus(a.isFeatured ? `«${a.title}» убрана из избранного` : `«${a.title}» в избранном`);
+    setStatus(a.isFeatured ? `«${a.title}» убрана с прилавка` : `«${a.title}» выбрана для прилавка`);
   };
 
   const remove = (a: Artwork) => {
@@ -63,8 +63,8 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
     <div>
       <h2>Мои работы ({sorted.length})</h2>
       <p className={styles.info}>
-        На прилавке помещается {counter.slots.length}: туда попадают первые избранные работы по
-        порядку, остальные показываются в блоке «Все работы».
+        На прилавке помещается {counter.slots.length}: ттуда попадают первые работы со звёздочкой ★ по порядку,
+         остальные показываются в блоке «Все работы».
       </p>
 
       <AddArtworkForm
@@ -118,7 +118,7 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
                   </button>
                   <button
                     type="button"
-                    aria-label={`В избранное: ${a.title}`}
+                    aria-label={`Показывать на прилавке`}
                     aria-pressed={a.isFeatured}
                     className={a.isFeatured ? styles.starOn : undefined}
                     onClick={() => toggleFeatured(a)}

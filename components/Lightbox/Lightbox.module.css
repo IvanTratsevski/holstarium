@@ -37,7 +37,7 @@
 .image {
   display: block;
   max-width: 100%;
-  max-height: calc(100vh - 12rem);
+  max-height: calc(100vh - 15rem);
   object-fit: contain;
 }
 
@@ -155,4 +155,11 @@ button.tag {
 button.tag:hover,
 button.tag:focus-visible {
   background: rgba(255, 255, 255, 0.3);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
 }
