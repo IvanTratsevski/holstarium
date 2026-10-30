@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { StallData, Theme } from "@/types";
+import type { StallData, TagInfo, Theme } from "@/types";
 import ArtistHeader from "./ArtistHeader";
 import StallEditor from "./StallEditor";
 import StallView from "./StallView";
@@ -13,11 +13,12 @@ type Viewer = "guest" | "owner";
 type Props = {
   initialStall: StallData;
   theme: Theme;
+  tagCatalog: TagInfo[]; // новое
   district?: { slug: string; name: string };
 };
 
-export default function StallPage({ initialStall, theme, district }: Props) {
-  // В прототипе роль переключается вручную. В боевой версии её определит сервер по сессии.
+export default function StallPage({ initialStall, theme, tagCatalog, district }: Props) {
+      // В прототипе роль переключается вручную. В боевой версии её определит сервер по сессии.
   const [viewer, setViewer] = useState<Viewer>("guest");
   const [editing, setEditing] = useState(false);
   const [stall, setStall] = useState<StallData>(initialStall);
@@ -55,11 +56,12 @@ export default function StallPage({ initialStall, theme, district }: Props) {
       <div className={isEditing ? styles.withEditor : undefined}>
         {isEditing && (
           <StallEditor
-            stall={stall}
-            theme={theme}
-            onChange={patch}
-            onReset={() => setStall(initialStall)}
-          />
+  stall={stall}
+  theme={theme}
+  tagCatalog={tagCatalog}
+  onChange={patch}
+  onReset={() => setStall(initialStall)}
+/>
         )}
         <StallView stall={stall} theme={theme} />
       </div>

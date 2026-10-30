@@ -87,3 +87,7 @@
   border-color: #e07a5f;
   background: #e07a5f;
 }
+
+.stallArea {
+  min-width: 0; /* без этого широкий контент может растянуть колонку сетки */
+}

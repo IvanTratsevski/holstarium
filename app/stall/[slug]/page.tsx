@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import StallPage from "@/components/Stall/StallPage";
 import { districts, slots, stalls, themes } from "@/data/mock";
+import { buildCatalog } from "@/lib/tags";
 
 export function generateStaticParams() {
   return stalls.map((s) => ({ slug: s.slug }));
@@ -21,11 +22,12 @@ export default async function Page({
   return (
     <main>
       <StallPage
-        key={stall.slug}
-        initialStall={stall}
-        theme={themes[stall.themeId]}
-        district={district && { slug: district.slug, name: district.name }}
-      />
+  key={stall.slug}
+  initialStall={stall}
+  theme={themes[stall.themeId]}
+  tagCatalog={buildCatalog(stalls.flatMap((s) => s.artworks))}
+  district={district && { slug: district.slug, name: district.name }}
+/>
     </main>
   );
 }

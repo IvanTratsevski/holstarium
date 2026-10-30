@@ -1,0 +1,201 @@
+.info {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.warn {
+  color: #f2cc8f;
+  font-size: 0.9rem;
+}
+
+.error {
+  margin: 0;
+  color: #ff8a8a;
+  font-size: 0.9rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0 0 0.9rem;
+  padding: 0;
+  border: 0;
+}
+
+.field input[type="text"],
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field small {
+  opacity: 0.65;
+}
+
+.fields {
+  margin-top: 0.75rem;
+}
+
+.addForm {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border: 1px dashed #888;
+  border-radius: 8px;
+}
+
+.addForm h3 {
+  margin: 0 0 0.75rem;
+}
+
+.preview {
+  display: block;
+  max-width: 100%;
+  max-height: 14rem;
+  margin: 0 0 1rem;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.list {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  margin-bottom: 0.6rem;
+  padding: 0.6rem;
+  border: 1px solid #555;
+  border-radius: 8px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.thumb {
+  flex: none;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.titleBox {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.titleBox strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.titleBox small {
+  opacity: 0.65;
+}
+
+.onCounter {
+  color: #81b29a;
+  opacity: 1 !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.actions button {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.actions button:hover:not(:disabled),
+.actions button:focus-visible {
+  border-color: #e07a5f;
+}
+
+.actions button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.starOn {
+  color: #ffd166;
+  border-color: #ffd166 !important;
+}
+
+.confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding: 0.6rem;
+  border-radius: 6px;
+  background: rgba(229, 72, 77, 0.15);
+}
+
+.btn,
+.primary,
+.danger {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.primary {
+  border-color: #e07a5f;
+  background: #e07a5f;
+  color: #fff;
+}
+
+.danger {
+  border-color: #e5484d;
+  background: #e5484d;
+  color: #fff;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

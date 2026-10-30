@@ -1,7 +1,9 @@
 "use client";
 
-import type { StallData, Theme } from "@/types";
+import { useState } from "react";
+import type { StallData, TagInfo, Theme } from "@/types";
 import { safeUrl } from "@/lib/links";
+import ArtworkManager from "./ArtworkManager";
 import styles from "./StallEditor.module.css";
 
 const MAX_LINKS = 4;
@@ -11,11 +13,13 @@ const PRESETS = ["#e07a5f", "#81b29a", "#6d597a", "#355070", "#b56576", "#f2cc8f
 type Props = {
   stall: StallData;
   theme: Theme;
+  tagCatalog: TagInfo[]; // новое
   onChange: (patch: Partial<StallData>) => void;
   onReset: () => void;
 };
 
-export default function StallEditor({ stall, theme, onChange, onReset }: Props) {
+export default function StallEditor({ stall, theme, tagCatalog, onChange, onReset }: Props) {
+  const [tab, setTab] = useState<"design" | "works">("design");
   const links = stall.links ?? [];
   const counter = theme.counters.find((c) => c.id === stall.counterId) ?? theme.counters[0];
   const featuredCount = stall.artworks.filter((a) => a.isFeatured).length;
@@ -25,8 +29,17 @@ export default function StallEditor({ stall, theme, onChange, onReset }: Props) 
 
   return (
     <section className={styles.panel} aria-label="Редактирование лавки">
-      <h2>Оформление лавки</h2>
+        <div className={styles.tabs} role="group" aria-label="Раздел редактора">
+  <button type="button" aria-pressed={tab === "design"} onClick={() => setTab("design")}>
+    Оформление
+  </button>
+  <button type="button" aria-pressed={tab === "works"} onClick={() => setTab("works")}>
+    Работы ({stall.artworks.length})
+  </button>
+</div>
 
+      <h2>Оформление лавки</h2>
+        {tab === "design" && (
       <label className={styles.field}>
         <span>Вывеска</span>
         <input
@@ -36,7 +49,8 @@ export default function StallEditor({ stall, theme, onChange, onReset }: Props) 
           onChange={(e) => onChange({ signText: e.target.value })}
         />
       </label>
-
+)}
+{tab === "design" && (
       <div className={styles.field}>
         <span id="color-label">Цвет вывески</span>
         <div className={styles.colors} role="group" aria-labelledby="color-label">
@@ -59,7 +73,8 @@ export default function StallEditor({ stall, theme, onChange, onReset }: Props) 
           />
         </div>
       </div>
-
+)}
+{tab === "design" && (
       <fieldset className={styles.field}>
         <legend>Прилавок</legend>
         {theme.counters.map((c) => (
@@ -80,9 +95,12 @@ export default function StallEditor({ stall, theme, onChange, onReset }: Props) 
           </p>
         )}
       </fieldset>
+)}
+{tab === "design" && (
 
       <h2>Профиль</h2>
-
+)}
+{tab === "design" && (
       <label className={styles.field}>
         <span>Имя или ник</span>
         <input
@@ -92,6 +110,8 @@ export default function StallEditor({ stall, theme, onChange, onReset }: Props) 
           onChange={(e) => onChange({ artistName: e.target.value })}
         />
       </label>
+)}
+{tab === "design" && (
 
       <label className={styles.field}>
         <span>О себе</span>
@@ -105,7 +125,7 @@ export default function StallEditor({ stall, theme, onChange, onReset }: Props) 
           {(stall.bio ?? "").length} / {BIO_MAX}
         </small>
       </label>
-
+)}
       <div className={styles.field}>
         <span>Ссылки (до {MAX_LINKS})</span>
         <ul className={styles.linkList}>
@@ -157,7 +177,14 @@ export default function StallEditor({ stall, theme, onChange, onReset }: Props) 
           + Добавить ссылку
         </button>
       </div>
-
+          {tab === "works" && (
+  <ArtworkManager
+    stall={stall}
+    theme={theme}
+    catalog={tagCatalog}
+    onChange={(artworks) => onChange({ artworks })}
+  />
+)}
       <button type="button" className={styles.btn} onClick={onReset}>
         Сбросить изменения
       </button>
