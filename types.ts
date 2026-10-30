@@ -29,6 +29,7 @@ export type Theme = {
 export type Artwork = {
   id: string;
   title: string;
+  description?: string; // новое
   imageUrl?: string; // пока необязательно, вместо него цветная заглушка
   placeholderColor?: string;
   sortOrder: number;

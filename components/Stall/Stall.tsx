@@ -1,18 +1,16 @@
 import type { CSSProperties } from "react";
 import type { StallData, Theme } from "@/types";
+import { getStallLayout } from "@/lib/stallLayout";
 import styles from "./Stall.module.css";
 
-type Props = { stall: StallData; theme: Theme };
+type Props = {
+  stall: StallData;
+  theme: Theme;
+  onOpenArtwork?: (artworkId: string) => void;
+};
 
-export default function Stall({ stall, theme }: Props) {
-  const counter =
-    theme.counters.find((c) => c.id === stall.counterId) ?? theme.counters[0];
-
-  // Избранные по порядку; сколько влезает на прилавок, столько и берём
-  const featured = stall.artworks
-    .filter((a) => a.isFeatured)
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .slice(0, counter.slots.length);
+export default function Stall({ stall, theme, onOpenArtwork }: Props) {
+  const { counter, featured } = getStallLayout(stall, theme);
 
   const cssVars = {
     "--wall": theme.colors.wall,
@@ -25,13 +23,9 @@ export default function Stall({ stall, theme }: Props) {
 
   return (
     <div className={styles.scene} style={cssVars}>
-      {/* слой 1: фон (стена) */}
       <div className={styles.wall} />
-
-      {/* слой 2: прилавок */}
       <div className={styles.counter} />
 
-      {/* слой 3: работы в рамках */}
       {counter.slots.map((pos, i) => {
         const art = featured[i];
         return (
@@ -47,20 +41,23 @@ export default function Stall({ stall, theme }: Props) {
             }}
           >
             {art ? (
-              <div className={styles.frame}>
+              <button
+                type="button"
+                className={styles.frame}
+                onClick={() => onOpenArtwork?.(art.id)}
+                aria-label={`Открыть работу: ${art.title}`}
+              >
                 {art.imageUrl ? (
-                  <img src={art.imageUrl} alt={art.title} className={styles.image} />
+                  <img src={art.imageUrl} alt="" className={styles.image} />
                 ) : (
-                  <div
+                  <span
                     className={styles.placeholder}
                     style={{ background: art.placeholderColor }}
-                    role="img"
-                    aria-label={art.title}
                   >
                     {art.title}
-                  </div>
+                  </span>
                 )}
-              </div>
+              </button>
             ) : (
               <div className={styles.empty} />
             )}
@@ -68,7 +65,6 @@ export default function Stall({ stall, theme }: Props) {
         );
       })}
 
-      {/* слой 4: вывеска */}
       <div className={styles.sign}>{stall.signText}</div>
     </div>
   );

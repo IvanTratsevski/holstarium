@@ -9,6 +9,7 @@ const makeArtworks = (count: number) =>
   Array.from({ length: count }, (_, i) => ({
     id: `art-${i + 1}`,
     title: `Работа ${i + 1}`,
+    description: `Тестовое описание работы ${i + 1}. Здесь будет рассказ автора о рисунке.`,
     placeholderColor: colors[i % colors.length],
     sortOrder: i + 1,
     isFeatured: true,
