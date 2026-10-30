@@ -20,10 +20,12 @@ const makeStall = (
   artistName: string,
   signText: string,
   accentColor: string,
-  artworksCount: number
+  artworksCount: number,
+  bio?: string
 ): StallData => ({
   slug,
   artistName,
+  bio,
   signText,
   accentColor,
   themeId: "pixel",
@@ -32,11 +34,14 @@ const makeStall = (
 });
 
 export const stalls: StallData[] = [
-  makeStall("anna", "Анна", "Лавка Анны", "#e07a5f", 8), // больше, чем мест
-  makeStall("ivan", "Иван", "Пиксели Ивана", "#81b29a", 3), // меньше, чем мест
-  makeStall("maria", "Мария", "Мария рисует", "#6d597a", 6),
-  makeStall("oleg", "Олег", "Олег и точки", "#355070", 5),
-  makeStall("kira", "Кира", "Киры Уголок", "#b56576", 7),
+  makeStall(
+    "anna", "Анна", "Лавка Анны", "#e07a5f", 8,
+    "Рисую уютные городские пейзажи и маленькие истории про людей, которые живут в этих домах. Работаю в пиксель-арте уже пять лет, люблю тёплую палитру и вечерний свет в окнах."
+  ),
+  makeStall("ivan", "Иван", "Пиксели Ивана", "#81b29a", 3, "Ретро-игры, спрайты и персонажи."),
+  makeStall("maria", "Мария", "Мария рисует", "#6d597a", 6, "Иллюстрации к настольным играм и открытки."),
+  makeStall("oleg", "Олег", "Олег и точки", "#355070", 5), // без описания: проверяем отсутствие bio
+  makeStall("kira", "Кира", "Киры Уголок", "#b56576", 7, "Персонажи, монстры и немного уютного хоррора."),
 ];
 
 export const districts: District[] = [

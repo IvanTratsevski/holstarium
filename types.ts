@@ -39,6 +39,7 @@ export type Artwork = {
 export type StallData = {
   slug: string;
   artistName: string;
+  bio?: string; // новое: короткое описание автора
   signText: string;
   accentColor: string;
   themeId: string;
@@ -65,12 +66,22 @@ export type MapSlot = {
   stallSlug?: string; // нет значения = место свободно
 };
 
+export type ArtworkPreview = {
+  id: string;
+  title: string;
+  imageUrl?: string;
+  placeholderColor?: string;
+};
+
 // слот вместе с краткими данными лавки, чтобы клиентскому компоненту не тащить лишнее
 export type MapSlotView = MapSlot & {
   stall?: {
     slug: string;
     artistName: string;
+    bio?: string;
     signText: string;
     accentColor: string;
+    artworksCount: number;
+    previews: ArtworkPreview[];
   };
 };

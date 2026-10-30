@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import DistrictView from "@/components/DistrictMap/DistrictView";
 import { districts, slots, stalls } from "@/data/mock";
 import type { MapSlotView } from "@/types";
+import { getPreviews } from "@/lib/stallPreview";
 
 export function generateStaticParams() {
   return districts.map((d) => ({ slug: d.slug }));
@@ -18,19 +19,22 @@ export default async function DistrictPage({
   if (!district) notFound();
 
   const slotViews: MapSlotView[] = slots
-    .filter((s) => s.districtSlug === slug)
-    .map((s) => {
-      const st = s.stallSlug ? stalls.find((x) => x.slug === s.stallSlug) : undefined;
-      return {
-        ...s,
-        stall: st && {
-          slug: st.slug,
-          artistName: st.artistName,
-          signText: st.signText,
-          accentColor: st.accentColor,
-        },
-      };
-    });
+  .filter((s) => s.districtSlug === slug)
+  .map((s) => {
+    const st = s.stallSlug ? stalls.find((x) => x.slug === s.stallSlug) : undefined;
+    return {
+      ...s,
+      stall: st && {
+        slug: st.slug,
+        artistName: st.artistName,
+        bio: st.bio,
+        signText: st.signText,
+        accentColor: st.accentColor,
+        artworksCount: st.artworks.length,
+        previews: getPreviews(st, 4),
+      },
+    };
+  });
 
   return (
     <main style={{ padding: "1rem" }}>
