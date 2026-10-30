@@ -1,4 +1,4 @@
-import type { StallData } from "@/types";
+import type { District, MapSlot, StallData } from "@/types";
 import { pixelTheme } from "@/themes/pixel";
 
 export const themes = { [pixelTheme.id]: pixelTheme };
@@ -15,23 +15,62 @@ const makeArtworks = (count: number) =>
     isFeatured: true,
   }));
 
+const makeStall = (
+  slug: string,
+  artistName: string,
+  signText: string,
+  accentColor: string,
+  artworksCount: number
+): StallData => ({
+  slug,
+  artistName,
+  signText,
+  accentColor,
+  themeId: "pixel",
+  counterId: "wood",
+  artworks: makeArtworks(artworksCount),
+});
+
 export const stalls: StallData[] = [
+  makeStall("anna", "Анна", "Лавка Анны", "#e07a5f", 8), // больше, чем мест
+  makeStall("ivan", "Иван", "Пиксели Ивана", "#81b29a", 3), // меньше, чем мест
+  makeStall("maria", "Мария", "Мария рисует", "#6d597a", 6),
+  makeStall("oleg", "Олег", "Олег и точки", "#355070", 5),
+  makeStall("kira", "Кира", "Киры Уголок", "#b56576", 7),
+];
+
+export const districts: District[] = [
   {
-    slug: "anna",
-    artistName: "Анна",
-    signText: "Лавка Анны",
-    accentColor: "#e07a5f",
+    slug: "pixel",
+    name: "Пиксельный квартал",
+    description: "Пиксель-арт, ретро-игры и всё, что состоит из квадратиков.",
     themeId: "pixel",
-    counterId: "wood",
-    artworks: makeArtworks(8), // больше, чем мест: проверяем переполнение
-  },
-  {
-    slug: "ivan",
-    artistName: "Иван",
-    signText: "Пиксели Ивана",
-    accentColor: "#81b29a",
-    themeId: "pixel",
-    counterId: "wood",
-    artworks: makeArtworks(3), // меньше, чем мест: проверяем пустые места
+    mapWidth: 2400,
+    mapHeight: 1500,
   },
 ];
+
+// Координаты центров слотов, пока расставлены вручную сеткой
+const pixelPositions: [number, number][] = [
+  [400, 400], [800, 400], [1200, 400], [1600, 400], [2000, 400],
+  [600, 800], [1000, 800], [1400, 800], [1800, 800],
+  [400, 1200], [800, 1200], [1200, 1200], [1600, 1200], [2000, 1200],
+];
+
+// номер слота → slug лавки
+const pixelOccupied: Record<number, string> = {
+  0: "anna",
+  2: "ivan",
+  4: "maria",
+  6: "oleg",
+  10: "kira",
+};
+
+export const slots: MapSlot[] = pixelPositions.map(([x, y], i) => ({
+  id: `pixel-${i + 1}`,
+  districtSlug: "pixel",
+  x,
+  y,
+  size: 120,
+  stallSlug: pixelOccupied[i],
+}));

@@ -1,0 +1,76 @@
+.root {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  border: 2px solid #444;
+  background: #111;
+}
+
+.wrapper,
+.content {
+  width: 100% !important;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.controls {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.controls button {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.bgTitle {
+  fill: rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.marker {
+  cursor: pointer;
+  outline: none;
+}
+
+.marker:hover circle,
+.marker:focus-visible circle {
+  stroke: #ffd166;
+}
+
+.initial {
+  fill: #fff;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.label {
+  fill: #fff;
+  font-weight: 700;
+  stroke: rgba(0, 0, 0, 0.75);
+  stroke-width: 8px;
+  paint-order: stroke;
+  pointer-events: none;
+}

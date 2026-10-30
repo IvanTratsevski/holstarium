@@ -45,3 +45,32 @@ export type StallData = {
   counterId: string;
   artworks: Artwork[];
 };
+
+export type District = {
+  slug: string;
+  name: string;
+  description: string;
+  themeId: string;
+  mapImage?: string; // пока нет картинки, рисуется заглушка
+  mapWidth: number;  // размер картинки в пикселях, в этих единицах хранятся координаты слотов
+  mapHeight: number;
+};
+
+export type MapSlot = {
+  id: string;
+  districtSlug: string;
+  x: number;    // центр маркера, в пикселях исходной карты
+  y: number;
+  size: number; // диаметр маркера, в тех же единицах
+  stallSlug?: string; // нет значения = место свободно
+};
+
+// слот вместе с краткими данными лавки, чтобы клиентскому компоненту не тащить лишнее
+export type MapSlotView = MapSlot & {
+  stall?: {
+    slug: string;
+    artistName: string;
+    signText: string;
+    accentColor: string;
+  };
+};
