@@ -1,0 +1,97 @@
+.root {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.hint {
+  opacity: 0.75;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin: 1rem 0;
+}
+
+.toolbar input[type="number"] {
+  width: 5rem;
+}
+
+.toolbar button,
+.outputHead button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.toolbar button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.viewport {
+  max-height: 75vh;
+  overflow: auto;
+  border: 2px solid #444;
+  background: #111;
+  outline: none;
+}
+
+.viewport:focus-visible {
+  border-color: #ffd166;
+}
+
+.svg {
+  display: block;
+  height: auto;
+  user-select: none;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.marker {
+  cursor: grab;
+}
+
+.marker:active {
+  cursor: grabbing;
+}
+
+.num {
+  fill: #fff;
+  font-weight: 700;
+  pointer-events: none;
+  stroke: rgba(0, 0, 0, 0.7);
+  stroke-width: 6px;
+  paint-order: stroke;
+}
+
+.output {
+  margin-top: 1rem;
+}
+
+.outputHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.output textarea {
+  width: 100%;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9rem;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  background: #1b1b1b;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 6px;
+}
