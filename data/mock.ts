@@ -40,6 +40,7 @@ const makeArtworks = (count: number, offset = 0) =>
     tags: [...tagSets[(i + offset) % tagSets.length]],
     isFeatured: true,
     sale: sales[(i + offset) % sales.length],
+    aiGenerated: (i + offset) % 6 === 4 ? true : undefined,
   }));
 
 const makeStall = (

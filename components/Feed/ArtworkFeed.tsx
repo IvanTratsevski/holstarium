@@ -13,6 +13,8 @@ import { useSocial } from "@/components/Social/SocialProvider";
 import styles from "./ArtworkFeed.module.css";
 import PostList from "@/components/Posts/PostList";
 import { formatPrice } from "@/lib/sale";
+import AiBadge from "@/components/Badges/AiBadge";
+import { setHideAi } from "@/lib/socialActions";
 
 const TAGS_COLLAPSED = 8;
 
@@ -60,7 +62,9 @@ export default function ArtworkFeed({
 
   const byScope =
   activeScope === "follows" ? items.filter((i) => state.follows.includes(i.stallSlug)) : items;
-  const scoped = onlySale ? byScope.filter((i) => i.sale) : byScope;
+  const scoped = byScope.filter(
+  (i) => (!onlySale || i.sale) && (!state.hideAi || !i.aiGenerated)
+  );
 
   // последние объявления тех, на кого вы подписаны
   const followedPosts =
@@ -144,17 +148,30 @@ export default function ArtworkFeed({
           ))}
         </div>
       )}
-      <label className={styles.saleToggle}>
-        <input
-          type="checkbox"
-          checked={onlySale}
-          onChange={(e) => {
-            setOnlySale(e.target.checked);
-            setTag(null);
-          }}
-        />
-        Только в продаже
-      </label>
+      <div className={styles.toggles}>
+        <label className={styles.saleToggle}>
+          <input
+            type="checkbox"
+            checked={onlySale}
+            onChange={(e) => {
+              setOnlySale(e.target.checked);
+              setTag(null);
+            }}
+          />
+          Только в продаже
+        </label>
+        <label className={styles.saleToggle}>
+          <input
+            type="checkbox"
+            checked={state.hideAi}
+            onChange={(e) => {
+              setHideAi(e.target.checked);
+              setTag(null);
+            }}
+          />
+          Скрыть работы с ИИ
+        </label>
+      </div>
       {chips.length > 0 && (
         <div className={styles.tagRow} role="group" aria-label="Фильтр по тегам">
           {shownChips.map((t) => (
@@ -197,8 +214,11 @@ export default function ArtworkFeed({
                 type="button"
                 className={styles.work}
                 onClick={() => setOpenIndex(i)}
-                aria-label={`Открыть работу: ${item.title}, автор ${item.artistName}`}
+                aria-label={`Открыть работу: ${item.title}, автор ${item.artistName}${
+                  item.aiGenerated ? ", создано с помощью ИИ" : ""
+                }`}
               >
+                {item.aiGenerated && <AiBadge />}
                 {item.imageUrl ? (
                   <img
                     src={withBase(item.imageUrl)}

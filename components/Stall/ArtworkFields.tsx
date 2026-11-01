@@ -9,6 +9,7 @@ export type ArtworkFieldsValue = {
   description: string;
   alt: string;
   tags: string[];
+  aiGenerated: boolean;
 };
 
 type Props = {
@@ -54,6 +55,22 @@ export default function ArtworkFields({ value, onChange, catalog }: Props) {
       <div className={styles.field}>
         <span>Теги</span>
         <TagInput catalog={catalog} value={value.tags} onChange={(tags) => onChange({ tags })} />
+      </div>
+
+      <div className={styles.field}>
+        <label className={styles.checkRow}>
+          <input
+            type="checkbox"
+            checked={value.aiGenerated}
+            onChange={(e) => onChange({ aiGenerated: e.target.checked })}
+          />
+          Создано с помощью ИИ
+        </label>
+        <small>
+          Отметьте, если изображение или значительная его часть сгенерированы нейросетью, даже
+          если вы потом доработали результат вручную. Такая работа показывается со значком, и
+          посетители могут скрыть её в ленте.
+        </small>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ export default function SiteNav() {
         <li><Link href="/feed">Все работы</Link></li>
         <li><Link href="/saved">Избранное</Link></li>
         <li><Link href="/rules">Правила</Link></li>
+        <li><Link href="/apply">Стать художником</Link></li>
       </ul>
     </nav>
   );

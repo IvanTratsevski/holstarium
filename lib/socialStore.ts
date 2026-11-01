@@ -15,6 +15,7 @@ export type SocialState = {
   lastCommentAt: number;
   requests: PurchaseRequest[];
   orders: Record<string, boolean>; // slug лавки -> принимает ли заказы (перекрывает данные лавки)
+  hideAi: boolean;
 };
 
 const KEY = "holstarium:social:v1";
@@ -32,6 +33,7 @@ export const DEFAULT_STATE: SocialState = {
   lastCommentAt: 0,
   requests: [],
   orders: {},
+  hideAi: false,
 };
 
 let state: SocialState = DEFAULT_STATE;
@@ -99,6 +101,7 @@ function parse(raw: string | null): SocialState {
       lastCommentAt: typeof d.lastCommentAt === "number" ? d.lastCommentAt : 0,
       requests: Array.isArray(d.requests) ? d.requests.filter(isRequest) : [],
       orders: bools(d.orders),
+      hideAi: d.hideAi === true,
     };
   } catch {
     return DEFAULT_STATE;

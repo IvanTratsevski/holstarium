@@ -8,7 +8,13 @@ import ArtworkFields from "./ArtworkFields";
 import type { ArtworkFieldsValue } from "./ArtworkFields";
 import styles from "./ArtworkManager.module.css";
 
-const EMPTY: ArtworkFieldsValue = { title: "", description: "", alt: "", tags: [] };
+const EMPTY: ArtworkFieldsValue = {
+  title: "",
+  description: "",
+  alt: "",
+  tags: [],
+  aiGenerated: false,
+};
 
 type Props = {
   catalog: TagInfo[];
@@ -78,6 +84,7 @@ export default function AddArtworkForm({ catalog, disabled, onAdd }: Props) {
       description: fields.description.trim() || undefined,
       alt: fields.alt.trim() || undefined,
       tags: fields.tags,
+      aiGenerated: fields.aiGenerated || undefined,
       imageUrl: preview.url, // адрес не освобождаем: теперь им пользуется работа
       aspectRatio: preview.aspect ?? 1,
       sortOrder: 0,

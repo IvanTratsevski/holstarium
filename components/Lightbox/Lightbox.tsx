@@ -11,7 +11,7 @@ import SaveButton from "@/components/Social/SaveButton";
 import CommentsBar from "@/components/Comments/CommentsBar";
 import RequestButton from "@/components/Requests/RequestButton";
 import { formatPrice } from "@/lib/sale";
-
+import AiBadge from "@/components/Badges/AiBadge";
 
 type Props = {
   artworks: LightboxItem[];
@@ -91,6 +91,11 @@ export default function Lightbox({artworks, index, onClose, onChange, onTagClick
             )}
             <figcaption className={styles.caption}>
   <h2>{art.title}</h2>
+  {art.aiGenerated && (
+  <p>
+    <AiBadge variant="inline" />
+  </p>
+  )}
   {art.description && <p>{art.description}</p>}
 
 {art.sale && (

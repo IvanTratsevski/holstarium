@@ -38,6 +38,7 @@ export type Artwork = {
   tags?: string[]; // ключи тегов (нормализованный текст)
   alt?: string;
   sale?: SaleInfo; // нет значения = не продаётся
+  aiGenerated?: boolean;
 };
 
 export type StallData = {

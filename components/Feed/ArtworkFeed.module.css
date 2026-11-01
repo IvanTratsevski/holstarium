@@ -45,6 +45,7 @@
   background: transparent;
   cursor: pointer;
   transition: transform 0.15s ease;
+  position: relative;
 }
 
 .work:hover,
@@ -190,4 +191,10 @@
   color: #81b29a;
   font-weight: 600;
   opacity: 1 !important;
+}
+
+.toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
 }

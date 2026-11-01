@@ -99,6 +99,7 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
                   <small className={onCounter.has(a.id) ? styles.onCounter : undefined}>
                     {i + 1}. {placeText(a)}
                     {a.sale ? ` · ${formatPrice(a.sale)}` : ""}
+                    {a.aiGenerated ? " · ИИ" : ""}
                   </small>
                 </div>
 
@@ -166,6 +167,7 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
                       description: a.description ?? "",
                       alt: a.alt ?? "",
                       tags: a.tags ?? [],
+                      aiGenerated: !!a.aiGenerated,
                     }}
                     onChange={(patch) => onChange(updateArtwork(stall.artworks, a.id, patch))}
                     catalog={catalog}

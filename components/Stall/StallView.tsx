@@ -9,6 +9,7 @@ import Lightbox from "@/components/Lightbox/Lightbox";
 import Stall from "./Stall";
 import styles from "./StallView.module.css";
 import { useSocial } from "@/components/Social/SocialProvider";
+import AiBadge from "@/components/Badges/AiBadge";
 
 type Props = { stall: StallData; theme: Theme };
 
@@ -45,13 +46,14 @@ export default function StallView({ stall, theme }: Props) {
                   className={styles.item}
                   style={a.imageUrl ? undefined : { background: a.placeholderColor }}
                   onClick={() => openById(a.id)}
-                  aria-label={`Открыть работу: ${a.title}`}
+                  aria-label={`Открыть работу: ${a.title}${a.aiGenerated ? " (создано с помощью ИИ)" : ""}`}
                 >
                   {a.imageUrl ? (
                     <img src={withBase(a.imageUrl)} alt="" className={styles.itemImage} />
                   ) : (
                     a.title
                   )}
+                  {a.aiGenerated && <AiBadge />}
                 </button>
               </li>
             ))}

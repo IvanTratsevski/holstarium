@@ -231,3 +231,10 @@
 .saleError {
   color: #ff8a8a;
 }
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  cursor: pointer;
+}

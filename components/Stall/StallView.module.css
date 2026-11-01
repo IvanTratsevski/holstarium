@@ -33,6 +33,7 @@
   font: inherit;
   cursor: pointer;
   transition: transform 0.15s ease;
+  position: relative;
 }
 
 .item:hover,

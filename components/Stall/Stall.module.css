@@ -38,6 +38,7 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.45);
   box-sizing: border-box;
   transition: transform 0.15s ease;
+  position: relative
 }
 
 .frame:hover,

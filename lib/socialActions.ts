@@ -101,3 +101,7 @@ export function setStallComments(slug: string, enabled: boolean) {
         : [...st.commentsOffStalls, slug],
   }));
 }
+
+export function setHideAi(hide: boolean) {
+  update((st) => ({ ...st, hideAi: hide }));
+}
