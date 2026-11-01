@@ -15,6 +15,8 @@ import { withBase } from "@/lib/withBase";
 import AddArtworkForm from "./AddArtworkForm";
 import ArtworkFields from "./ArtworkFields";
 import styles from "./ArtworkManager.module.css";
+import SaleFields from "./SaleFields";
+import { formatPrice } from "@/lib/sale";
 
 type Props = {
   stall: StallData;
@@ -96,6 +98,7 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
                   <strong>{a.title || "Без названия"}</strong>
                   <small className={onCounter.has(a.id) ? styles.onCounter : undefined}>
                     {i + 1}. {placeText(a)}
+                    {a.sale ? ` · ${formatPrice(a.sale)}` : ""}
                   </small>
                 </div>
 
@@ -156,16 +159,23 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
               )}
 
               {editingId === a.id && (
-                <ArtworkFields
-                  value={{
-                    title: a.title,
-                    description: a.description ?? "",
-                    alt: a.alt ?? "",
-                    tags: a.tags ?? [],
-                  }}
-                  onChange={(patch) => onChange(updateArtwork(stall.artworks, a.id, patch))}
-                  catalog={catalog}
-                />
+                <>
+                  <ArtworkFields
+                    value={{
+                      title: a.title,
+                      description: a.description ?? "",
+                      alt: a.alt ?? "",
+                      tags: a.tags ?? [],
+                    }}
+                    onChange={(patch) => onChange(updateArtwork(stall.artworks, a.id, patch))}
+                    catalog={catalog}
+                  />
+                  <SaleFields
+                    key={a.id}
+                    value={a.sale}
+                    onChange={(sale) => onChange(updateArtwork(stall.artworks, a.id, { sale }))}
+                  />
+                </>
               )}
             </li>
           ))}

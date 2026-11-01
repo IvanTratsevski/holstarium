@@ -3,6 +3,7 @@ import type { StallData } from "@/types";
 import { safeUrl } from "@/lib/links";
 import styles from "./ArtistHeader.module.css";
 import FollowButton from "@/components/Social/FollowButton";
+import OrdersStatus from "@/components/Requests/OrdersStatus";
 
 type Props = {
   stall: StallData;
@@ -33,7 +34,11 @@ export default function ArtistHeader({ stall, district, showFollow = true }: Pro
           Работ: {stall.artworks.length}
         </p>
         {showFollow && <FollowButton slug={stall.slug} />}
-
+          <OrdersStatus
+          slug={stall.slug}
+          artistName={stall.artistName}
+          defaultOpen={!!stall.acceptsOrders}
+         />
         {stall.bio && <p className={styles.bio}>{stall.bio}</p>}
 
         {links.length > 0 && (

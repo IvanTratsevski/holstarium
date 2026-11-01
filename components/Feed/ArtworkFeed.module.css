@@ -176,3 +176,18 @@
 .more {
   border-style: dashed;
 }
+
+.saleToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+
+.price {
+  color: #81b29a;
+  font-weight: 600;
+  opacity: 1 !important;
+}

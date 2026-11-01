@@ -163,3 +163,12 @@ button.tag:focus-visible {
   gap: 0.5rem;
   margin: 0 0 0.75rem;
 }
+
+.price {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+}
+
+.price strong {
+  color: #ffd166;
+}

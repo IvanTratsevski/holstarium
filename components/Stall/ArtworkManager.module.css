@@ -199,3 +199,35 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+.saleRadio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  cursor: pointer;
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.priceRow input {
+  flex: 1 1 8rem;
+}
+
+.priceRow select {
+  min-height: 2.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: var(--background, #1f1f1f);
+  color: var(--foreground, #eee);
+  font: inherit;
+}
+
+.saleError {
+  color: #ff8a8a;
+}

@@ -4,7 +4,7 @@ import "./globals.css";
 import SocialProvider from "@/components/Social/SocialProvider";
 import SiteNav from "@/components/Social/SiteNav";
 import DevBar from "@/components/Social/DevBar";
-
+import RequestProvider from "@/components/Requests/RequestProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +29,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <SocialProvider>
-         <SiteNav />
+          <RequestProvider>
+            <SiteNav />
             {children}
-         <DevBar />
+            <DevBar />
+          </RequestProvider>
         </SocialProvider>
       </body>
     </html>

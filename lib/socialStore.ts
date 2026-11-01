@@ -1,18 +1,20 @@
-import type { Comment, Report } from "@/types";
+import type { Comment, PurchaseRequest, Report } from "@/types";
 
 export type Role = "guest" | "visitor" | "owner";
 
 export type SocialState = {
   role: Role;
-  likes: string[];   // ключи работ
-  saved: string[];   // ключи работ
-  follows: string[]; // slug лавок
-  comments: Comment[];       // комментарии, написанные в этом браузере
-  removed: string[];         // id комментариев, удалённых владельцем лавки
+  likes: string[];
+  saved: string[];
+  follows: string[];
+  comments: Comment[];
+  removed: string[];
   reports: Report[];
-  commentsOffWorks: string[];  // ключи работ с отключёнными комментариями
-  commentsOffStalls: string[]; // slug лавок с отключёнными комментариями
+  commentsOffWorks: string[];
+  commentsOffStalls: string[];
   lastCommentAt: number;
+  requests: PurchaseRequest[];
+  orders: Record<string, boolean>; // slug лавки -> принимает ли заказы (перекрывает данные лавки)
 };
 
 const KEY = "holstarium:social:v1";
@@ -28,6 +30,8 @@ export const DEFAULT_STATE: SocialState = {
   commentsOffWorks: [],
   commentsOffStalls: [],
   lastCommentAt: 0,
+  requests: [],
+  orders: {},
 };
 
 let state: SocialState = DEFAULT_STATE;
@@ -38,6 +42,13 @@ const strings = (v: unknown): string[] =>
   Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null;
+
+const bools = (v: unknown): Record<string, boolean> =>
+  isObj(v)
+    ? (Object.fromEntries(
+        Object.entries(v).filter(([, x]) => typeof x === "boolean")
+      ) as Record<string, boolean>)
+    : {};
 
 const isComment = (v: unknown): v is Comment =>
   isObj(v) &&
@@ -58,6 +69,18 @@ const isReport = (v: unknown): v is Report =>
   typeof v.reason === "string" &&
   typeof v.createdAt === "number";
 
+const isRequest = (v: unknown): v is PurchaseRequest =>
+  isObj(v) &&
+  typeof v.id === "string" &&
+  typeof v.stallSlug === "string" &&
+  (v.ref === null || typeof v.ref === "string") &&
+  (v.workTitle === null || typeof v.workTitle === "string") &&
+  typeof v.fromName === "string" &&
+  typeof v.message === "string" &&
+  typeof v.contact === "string" &&
+  typeof v.createdAt === "number" &&
+  (v.status === "new" || v.status === "read" || v.status === "replied");
+
 function parse(raw: string | null): SocialState {
   if (!raw) return DEFAULT_STATE;
   try {
@@ -74,6 +97,8 @@ function parse(raw: string | null): SocialState {
       commentsOffWorks: strings(d.commentsOffWorks),
       commentsOffStalls: strings(d.commentsOffStalls),
       lastCommentAt: typeof d.lastCommentAt === "number" ? d.lastCommentAt : 0,
+      requests: Array.isArray(d.requests) ? d.requests.filter(isRequest) : [],
+      orders: bools(d.orders),
     };
   } catch {
     return DEFAULT_STATE;

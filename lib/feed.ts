@@ -26,6 +26,7 @@ export function buildFeed(
           accentColor: stall.accentColor,
           districtSlug: district.slug,
           districtName: district.name,
+          acceptsOrders: stall.acceptsOrders,
         }))
     );
   }

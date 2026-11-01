@@ -7,6 +7,7 @@ import ArtworkManager from "./ArtworkManager";
 import styles from "./StallEditor.module.css";
 import { useSocial } from "@/components/Social/SocialProvider";
 import { setStallComments } from "@/lib/socialActions";
+import { setStallOrders } from "@/lib/requestActions";
 
 const MAX_LINKS = 4;
 const BIO_MAX = 300;
@@ -27,7 +28,7 @@ export default function StallEditor({ stall, theme, tagCatalog, onChange, onRese
   const links = stall.links ?? [];
   const counter = theme.counters.find((c) => c.id === stall.counterId) ?? theme.counters[0];
   const featuredCount = stall.artworks.filter((a) => a.isFeatured).length;
-
+  const ordersOpen = social.orders[stall.slug] ?? !!stall.acceptsOrders;
   const setLink = (i: number, patch: Partial<{ label: string; url: string }>) =>
     onChange({ links: links.map((l, idx) => (idx === i ? { ...l, ...patch } : l)) });
 
@@ -110,6 +111,19 @@ export default function StallEditor({ stall, theme, tagCatalog, onChange, onRese
       onChange={(e) => setStallComments(stall.slug, e.target.checked)}
     />
     Разрешить комментарии под моими работами и объявлениями
+  </label>
+</fieldset>
+)}
+{tab === "design" && (
+<fieldset className={styles.field}>
+  <legend>Заказы</legend>
+  <label className={styles.radio}>
+    <input
+      type="checkbox"
+      checked={ordersOpen}
+      onChange={(e) => setStallOrders(stall.slug, e.target.checked)}
+    />
+    Принимаю заказы и запросы на покупку
   </label>
 </fieldset>
 )}

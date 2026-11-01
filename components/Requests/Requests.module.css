@@ -1,0 +1,328 @@
+/* кнопки */
+.btn,
+.btnSent,
+.orderBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.3rem 0.9rem;
+  border: 1px solid #e07a5f;
+  border-radius: 999px;
+  background: #e07a5f;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:focus-visible,
+.orderBtn:hover,
+.orderBtn:focus-visible {
+  filter: brightness(1.1);
+}
+
+.btnSent {
+  border-color: rgba(128, 128, 128, 0.7);
+  background: transparent;
+  color: inherit;
+  opacity: 0.85;
+  cursor: default;
+}
+
+.closedNote {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* статус заказов в шапке художника */
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.badgeOpen {
+  color: #81b29a;
+}
+
+.badgeClosed {
+  opacity: 0.65;
+}
+
+/* окно запроса */
+.dialog {
+  width: min(34rem, calc(100% - 1.5rem));
+  max-height: calc(100vh - 2rem);
+  padding: 1.25rem;
+  overflow-y: auto;
+  border: 1px solid #666;
+  border-radius: 10px;
+  background: var(--background, #1f1f1f);
+  color: var(--foreground, #eee);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.dialog h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.2rem;
+}
+
+.sub {
+  margin: 0 0 1rem;
+  opacity: 0.8;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0 0 0.9rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.hint {
+  font-size: 0.85rem;
+  opacity: 0.65;
+}
+
+.count {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.safety {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(242, 204, 143, 0.12);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.safety a {
+  color: #e07a5f;
+}
+
+.error {
+  margin: 0 0 0.75rem;
+  color: #ff8a8a;
+  font-size: 0.9rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.primary,
+.secondary,
+.danger {
+  min-height: 2.5rem;
+  padding: 0.3rem 1rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary {
+  border-color: #e07a5f;
+  background: #e07a5f;
+  color: #fff;
+}
+
+.danger {
+  border-color: #e5484d;
+  background: #e5484d;
+  color: #fff;
+}
+
+/* входящие у владельца */
+.inbox {
+  padding-bottom: 2rem;
+}
+
+.inbox h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.info {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  opacity: 0.8;
+}
+
+.info a {
+  color: #e07a5f;
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.filters button {
+  min-height: 2.5rem;
+  padding: 0.3rem 1rem;
+  border: 1px solid #666;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.filters button[aria-pressed="true"] {
+  border-color: #e07a5f;
+  background: #e07a5f;
+  color: #fff;
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  margin: 0 0 0.75rem;
+  padding: 0.9rem;
+  border: 1px solid #555;
+  border-radius: 10px;
+}
+
+.itemNew {
+  border-color: #e07a5f;
+  background: rgba(224, 122, 95, 0.08);
+}
+
+.itemHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.8rem;
+}
+
+.itemHead time {
+  font-size: 0.85rem;
+  opacity: 0.65;
+}
+
+.statusTag {
+  margin-left: auto;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.tagNew {
+  color: #e07a5f;
+}
+
+.tagRead {
+  opacity: 0.7;
+}
+
+.tagReplied {
+  color: #81b29a;
+}
+
+.work {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.message {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.contact {
+  margin: 0 0 0.6rem;
+  overflow-wrap: anywhere;
+}
+
+.contact a {
+  color: #e07a5f;
+}
+
+.itemActions,
+.confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+}
+
+.itemActions button,
+.confirm button {
+  min-height: 2.5rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.confirm {
+  margin-top: 0.6rem;
+  padding: 0.6rem;
+  border-radius: 6px;
+  background: rgba(229, 72, 77, 0.15);
+}
+
+.confirm .danger {
+  border-color: #e5484d;
+  background: #e5484d;
+  color: #fff;
+}
+
+.emptyInbox {
+  opacity: 0.75;
+}

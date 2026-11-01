@@ -1,4 +1,4 @@
-import type { District, MapSlot, Post, SocialLink, StallData } from "@/types";
+import type { District, MapSlot, Post, SaleInfo, SocialLink, StallData } from "@/types";
 import { pixelTheme } from "@/themes/pixel";
 
 export const themes = { [pixelTheme.id]: pixelTheme };
@@ -19,7 +19,16 @@ const tagSets: string[][] = [
   ["скетч"],
   ["архитектура", "ночной город"],
 ];
-
+const sales: (SaleInfo | undefined)[] = [
+  { kind: "price", amount: 25, currency: "EUR", note: "печатная копия А4" },
+  undefined,
+  { kind: "negotiable", note: "оригинал на холсте" },
+  undefined,
+  { kind: "price", amount: 1500, currency: "RUB" },
+  { kind: "price", amount: 40, currency: "USD", note: "цифровой файл" },
+  undefined,
+  { kind: "negotiable" },
+];
 const makeArtworks = (count: number, offset = 0) =>
   Array.from({ length: count }, (_, i) => ({
     id: `art-${i + 1}`,
@@ -30,6 +39,7 @@ const makeArtworks = (count: number, offset = 0) =>
     sortOrder: i + 1,
     tags: [...tagSets[(i + offset) % tagSets.length]],
     isFeatured: true,
+    sale: sales[(i + offset) % sales.length],
   }));
 
 const makeStall = (
@@ -156,6 +166,11 @@ export const districts: District[] = [
   mapHeight: 1500,
 },
 ];
+
+for (const slug of ["anna", "maria", "kira"]) {
+  const s = stalls.find((x) => x.slug === slug);
+  if (s) s.acceptsOrders = true;
+}
 
 // Координаты центров слотов, пока расставлены вручную сеткой
 // район: Пиксельный квартал, карта 1536×1024, рекомендуемый size: 73

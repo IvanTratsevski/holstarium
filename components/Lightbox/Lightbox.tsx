@@ -9,6 +9,9 @@ import { withBase } from "@/lib/withBase";
 import LikeButton from "@/components/Social/LikeButton";
 import SaveButton from "@/components/Social/SaveButton";
 import CommentsBar from "@/components/Comments/CommentsBar";
+import RequestButton from "@/components/Requests/RequestButton";
+import { formatPrice } from "@/lib/sale";
+
 
 type Props = {
   artworks: LightboxItem[];
@@ -89,13 +92,29 @@ export default function Lightbox({artworks, index, onClose, onChange, onTagClick
             <figcaption className={styles.caption}>
   <h2>{art.title}</h2>
   {art.description && <p>{art.description}</p>}
-  {art.ref && (
+
+{art.sale && (
+  <p className={styles.price}>
+    <strong>{formatPrice(art.sale)}</strong>
+    {art.sale.note && <span> · {art.sale.note}</span>}
+  </p>
+)}
+
+{art.ref && (
   <div className={styles.actions}>
     <LikeButton refKey={art.ref} />
     <SaveButton refKey={art.ref} />
     <CommentsBar key={art.ref} refKey={art.ref} canModerate={canModerate} />
-
-  </div>)}\
+    {art.sale && (
+      <RequestButton
+        stallSlug={art.stallSlug ?? art.ref.split(":")[0]}
+        artistName={art.authorName ?? ""}
+        defaultOpen={!!art.acceptsOrders}
+        work={{ ref: art.ref, title: art.title, priceText: formatPrice(art.sale) }}
+      />
+    )}
+  </div>
+)}\
   {art.tagList && art.tagList.length > 0 && (
   <ul className={styles.tags}>
     {art.tagList.map((t) => (

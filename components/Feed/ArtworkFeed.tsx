@@ -12,6 +12,7 @@ import SaveButton from "@/components/Social/SaveButton";
 import { useSocial } from "@/components/Social/SocialProvider";
 import styles from "./ArtworkFeed.module.css";
 import PostList from "@/components/Posts/PostList";
+import { formatPrice } from "@/lib/sale";
 
 const TAGS_COLLAPSED = 8;
 
@@ -36,7 +37,7 @@ export default function ArtworkFeed({
   const [tag, setTag] = useState<string | null>(null);
   const [showAllTags, setShowAllTags] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
+  const [onlySale, setOnlySale] = useState(false);
   // если пользователь вышел, «Подписки» больше недоступны
   const activeScope = loggedIn ? scope : "all";
 
@@ -57,8 +58,9 @@ export default function ArtworkFeed({
     setTag(null);
   };
 
-  const scoped =
-    activeScope === "follows" ? items.filter((i) => state.follows.includes(i.stallSlug)) : items;
+  const byScope =
+  activeScope === "follows" ? items.filter((i) => state.follows.includes(i.stallSlug)) : items;
+  const scoped = onlySale ? byScope.filter((i) => i.sale) : byScope;
 
   // последние объявления тех, на кого вы подписаны
   const followedPosts =
@@ -142,7 +144,17 @@ export default function ArtworkFeed({
           ))}
         </div>
       )}
-
+      <label className={styles.saleToggle}>
+        <input
+          type="checkbox"
+          checked={onlySale}
+          onChange={(e) => {
+            setOnlySale(e.target.checked);
+            setTag(null);
+          }}
+        />
+        Только в продаже
+      </label>
       {chips.length > 0 && (
         <div className={styles.tagRow} role="group" aria-label="Фильтр по тегам">
           {shownChips.map((t) => (
@@ -215,6 +227,7 @@ export default function ArtworkFeed({
                     {item.artistName}
                   </Link>
                   <small>{item.districtName}</small>
+                  {item.sale && <small className={styles.price}>{formatPrice(item.sale)}</small>}
                 </div>
                 <div className={styles.cardActions}>
                   <LikeButton refKey={item.ref} />

@@ -20,6 +20,9 @@ export default function StallView({ stall, theme }: Props) {
   const lightboxItems: LightboxItem[] = sorted.map((a) => ({
   ...a,
   ref: `${stall.slug}:${a.id}`,
+  stallSlug: stall.slug,
+  authorName: stall.artistName,
+  acceptsOrders: stall.acceptsOrders,
   tagList: toTagList(a.tags),
 }));
 

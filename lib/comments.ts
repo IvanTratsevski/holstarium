@@ -7,7 +7,7 @@ export const COMMENT_COOLDOWN_MS = 20_000;
 export const REPORT_REASONS = ["Спам или реклама", "Оскорбления", "Другое"];
 
 // Простая проверка на адреса сайтов. На сервере будет строже.
-const LINK_RE = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|ru|net|org|io|me|ly|gg|su|xyz)\b)/i;
+export const LINK_RE = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|ru|net|org|io|me|ly|gg|su|xyz)\b)/i;
 
 export function validateComment(raw: string): string | null {
   const text = raw.trim();

@@ -37,6 +37,7 @@ export type Artwork = {
   isFeatured: boolean;
   tags?: string[]; // ключи тегов (нормализованный текст)
   alt?: string;
+  sale?: SaleInfo; // нет значения = не продаётся
 };
 
 export type StallData = {
@@ -50,6 +51,7 @@ export type StallData = {
   counterId: string;
   artworks: Artwork[];
   posts?: Post[];
+  acceptsOrders?: boolean;
 };
 
 export type District = {
@@ -100,6 +102,7 @@ export type FeedItem = Artwork & {
   accentColor: string;
   districtSlug: string;
   districtName: string;
+  acceptsOrders?: boolean;
 };
 
 // то, что умеет показывать лайтбокс: работа и, по желанию, ссылка на автора
@@ -108,6 +111,8 @@ export type LightboxItem = Artwork & {
   authorName?: string;
   authorHref?: string;
   tagList?: { key: string; name: string }[]; // теги с отображаемыми названиями
+  stallSlug?: string;
+  acceptsOrders?: boolean;
 };
 
 export type OfficialTag = {
@@ -166,4 +171,22 @@ export type PostView = Post & {
   stallSlug: string;
   artistName: string;
   accentColor: string;
+};
+
+export type SaleInfo =
+  | { kind: "price"; amount: number; currency: string; note?: string }
+  | { kind: "negotiable"; note?: string };
+
+export type RequestStatus = "new" | "read" | "replied";
+
+export type PurchaseRequest = {
+  id: string;
+  stallSlug: string;
+  ref: string | null;        // ключ работы; null = индивидуальный заказ
+  workTitle: string | null;
+  fromName: string;
+  message: string;
+  contact: string;           // как автору связаться с заказчиком
+  createdAt: number;
+  status: RequestStatus;
 };
