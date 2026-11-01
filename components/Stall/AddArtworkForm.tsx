@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import type { ChangeEvent } from "react";
-import type { Artwork, TagInfo } from "@/types";
+import type { Artwork, SaleInfo, TagInfo } from "@/types";
 import { ALLOWED_TYPES, MAX_FILE_MB } from "@/lib/artworks";
 import ArtworkFields from "./ArtworkFields";
 import type { ArtworkFieldsValue } from "./ArtworkFields";
+import SaleFields from "./SaleFields";
 import styles from "./ArtworkManager.module.css";
 
 const EMPTY: ArtworkFieldsValue = {
@@ -26,6 +27,9 @@ export default function AddArtworkForm({ catalog, disabled, onAdd }: Props) {
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState<{ url: string; aspect: number | null } | null>(null);
   const [fields, setFields] = useState<ArtworkFieldsValue>(EMPTY);
+  const [sale, setSale] = useState<SaleInfo | undefined>(undefined);
+  const [saleValid, setSaleValid] = useState(true);
+  const [saleKey, setSaleKey] = useState(0); // меняется, чтобы сбросить блок продажи
   const [error, setError] = useState("");
 
   const onFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +67,9 @@ export default function AddArtworkForm({ catalog, disabled, onAdd }: Props) {
 
   const reset = () => {
     setFields(EMPTY);
+    setSale(undefined);
+    setSaleValid(true);
+    setSaleKey((k) => k + 1);
     setError("");
     setOpen(false);
   };
@@ -78,6 +85,10 @@ export default function AddArtworkForm({ catalog, disabled, onAdd }: Props) {
       setError("Сначала выберите файл.");
       return;
     }
+    if (!saleValid) {
+      setError("Исправьте цену или выберите «Не продаётся».");
+      return;
+    }
     onAdd({
       id: `user-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       title: fields.title.trim() || "Без названия",
@@ -85,6 +96,7 @@ export default function AddArtworkForm({ catalog, disabled, onAdd }: Props) {
       alt: fields.alt.trim() || undefined,
       tags: fields.tags,
       aiGenerated: fields.aiGenerated || undefined,
+      sale,
       imageUrl: preview.url, // адрес не освобождаем: теперь им пользуется работа
       aspectRatio: preview.aspect ?? 1,
       sortOrder: 0,
@@ -114,6 +126,13 @@ export default function AddArtworkForm({ catalog, disabled, onAdd }: Props) {
       {preview && <img src={preview.url} alt="Предпросмотр выбранной работы" className={styles.preview} />}
 
       <ArtworkFields value={fields} onChange={(p) => setFields((f) => ({ ...f, ...p }))} catalog={catalog} />
+
+      <SaleFields
+        key={saleKey}
+        value={sale}
+        onChange={setSale}
+        onValidity={setSaleValid}
+      />
 
       {error && (
         <p className={styles.error} role="alert">

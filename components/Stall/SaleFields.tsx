@@ -9,9 +9,10 @@ import styles from "./ArtworkManager.module.css";
 type Props = {
   value?: SaleInfo;
   onChange: (sale?: SaleInfo) => void; // вызывается только с корректным значением
+  onValidity?: (valid: boolean) => void; // сообщает, корректен ли сейчас ввод
 };
 
-export default function SaleFields({ value, onChange }: Props) {
+export default function SaleFields({ value, onChange, onValidity }: Props) {
   const uid = useId();
   const [draft, setDraft] = useState<SaleDraft>(() => saleToDraft(value));
   const result = draftToSale(draft);
@@ -20,6 +21,7 @@ export default function SaleFields({ value, onChange }: Props) {
     const next = { ...draft, ...patch };
     setDraft(next);
     const r = draftToSale(next);
+    onValidity?.(r.ok);
     if (r.ok) onChange(r.sale); // пока ввод неверный, в лавке остаётся прежнее значение
   };
 
