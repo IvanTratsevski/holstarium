@@ -49,6 +49,7 @@ export type StallData = {
   themeId: string;
   counterId: string;
   artworks: Artwork[];
+  posts?: Post[];
 };
 
 export type District = {
@@ -141,4 +142,28 @@ export type Report = {
   text: string;       // копия текста на момент жалобы
   reason: string;
   createdAt: number;
+};
+
+export type PostImage = {
+  id: string;
+  imageUrl?: string;
+  placeholderColor?: string;
+  aspectRatio?: number;
+  alt?: string;
+};
+
+export type Post = {
+  id: string;
+  text: string;
+  images: PostImage[];
+  createdAt: number; // миллисекунды
+  editedAt?: number;
+  pinned?: boolean;
+};
+
+// пост вместе с данными автора, для списков и ленты
+export type PostView = Post & {
+  stallSlug: string;
+  artistName: string;
+  accentColor: string;
 };

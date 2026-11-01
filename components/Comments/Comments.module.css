@@ -247,3 +247,11 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+.openBtnPage {
+  border-color: rgba(128, 128, 128, 0.7);
+}
+
+.sheetPage {
+  z-index: 30;
+}

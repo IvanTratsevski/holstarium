@@ -109,7 +109,7 @@ export default function StallEditor({ stall, theme, tagCatalog, onChange, onRese
       checked={commentsOn}
       onChange={(e) => setStallComments(stall.slug, e.target.checked)}
     />
-    Разрешить комментарии под моими работами
+    Разрешить комментарии под моими работами и объявлениями
   </label>
 </fieldset>
 )}

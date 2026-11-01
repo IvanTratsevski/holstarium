@@ -23,12 +23,12 @@ const fmt = (ts: number) =>
   });
 
 type Props = {
-  refKey: string;       // ключ работы «лавка:работа»
-  canModerate: boolean; // true, если смотрит владелец этой лавки
+  refKey: string;
+  canModerate: boolean;
+  tone?: "lightbox" | "page"; // новое
 };
 
-export default function CommentsBar({ refKey, canModerate }: Props) {
-    
+export default function CommentsBar({ refKey, canModerate, tone = "lightbox" }: Props) {    
   const { state, loggedIn, requireAuth } = useSocial();
 
   const uid = useId();
@@ -79,7 +79,7 @@ export default function CommentsBar({ refKey, canModerate }: Props) {
     <>
       <button
         type="button"
-        className={styles.openBtn}
+        className={`${styles.openBtn} ${tone === "page" ? styles.openBtnPage : ""}`}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
@@ -88,7 +88,7 @@ export default function CommentsBar({ refKey, canModerate }: Props) {
 
       {open && (
         <div
-          className={styles.sheet}
+          className={`${styles.sheet} ${tone === "page" ? styles.sheetPage : ""}`}
           role="region"
           aria-label="Комментарии"
           onKeyDown={(e) => {

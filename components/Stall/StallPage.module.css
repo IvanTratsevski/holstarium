@@ -57,3 +57,43 @@
 .stallArea {
   min-width: 0; /* без этого широкий контент может растянуть колонку сетки */
 }
+
+.tabs {
+  max-width: 1400px;
+  margin: 0.5rem auto 1rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.toggle {
+  display: inline-flex;
+  border: 1px solid #666;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.toggle button {
+  min-height: 2.75rem;
+  padding: 0.5rem 1.2rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.toggle button[aria-pressed="true"] {
+  background: #e07a5f;
+  color: #fff;
+}
+
+.boardWrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.boardInner {
+  max-width: 46rem;
+}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { FeedItem, LightboxItem } from "@/types";
+import type { FeedItem, LightboxItem, PostView } from "@/types";
 import { MIN_CUSTOM_TAG_COUNT } from "@/data/tags";
 import { buildCatalog, toTagList } from "@/lib/tags";
 import { withBase } from "@/lib/withBase";
@@ -11,14 +11,16 @@ import LikeButton from "@/components/Social/LikeButton";
 import SaveButton from "@/components/Social/SaveButton";
 import { useSocial } from "@/components/Social/SocialProvider";
 import styles from "./ArtworkFeed.module.css";
+import PostList from "@/components/Posts/PostList";
 
 const TAGS_COLLAPSED = 8;
 
 type Props = {
   items: FeedItem[];
-  districts?: { slug: string; name: string }[]; // без него фильтра по районам нет
-  allowFollowScope?: boolean; // вкладки «Все работы / Подписки»
+  districts?: { slug: string; name: string }[];
+  allowFollowScope?: boolean;
   emptyText?: string;
+  posts?: PostView[]; // новое: показываются на вкладке «Подписки»
 };
 
 export default function ArtworkFeed({
@@ -26,6 +28,7 @@ export default function ArtworkFeed({
   districts = [],
   allowFollowScope = false,
   emptyText = "Здесь пока нет работ.",
+  posts = [],
 }: Props) {
   const { state, loggedIn, requireAuth } = useSocial();
   const [scope, setScope] = useState<"all" | "follows">("all");
@@ -56,6 +59,12 @@ export default function ArtworkFeed({
 
   const scoped =
     activeScope === "follows" ? items.filter((i) => state.follows.includes(i.stallSlug)) : items;
+
+  // последние объявления тех, на кого вы подписаны
+  const followedPosts =
+    activeScope === "follows"
+      ? posts.filter((p) => state.follows.includes(p.stallSlug)).slice(0, 6)
+      : [];
 
   const inDistrict =
     district === "all" ? scoped : scoped.filter((i) => i.districtSlug === district);
@@ -102,6 +111,13 @@ export default function ArtworkFeed({
           </button>
         </div>
       )}
+      {followedPosts.length > 0 && (
+          <section aria-label="Объявления художников">
+            <h2>Объявления</h2>
+            <PostList posts={followedPosts} showAuthor />
+            <h2>Работы</h2>
+          </section>
+        )}
 
       {districts.length > 1 && (
         <div className={styles.filters} role="group" aria-label="Фильтр по районам">
