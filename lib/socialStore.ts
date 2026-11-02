@@ -1,6 +1,13 @@
-import type { Comment, PurchaseRequest, Report } from "@/types";
+import type {
+  ApplicationDecision,
+  ApplicationRecord,
+  ApplicationSample,
+  Comment,
+  PurchaseRequest,
+  Report,
+} from "@/types";
 
-export type Role = "guest" | "visitor" | "owner";
+export type Role = "guest" | "visitor" | "owner" | "admin";
 
 export type SocialState = {
   role: Role;
@@ -14,8 +21,10 @@ export type SocialState = {
   commentsOffStalls: string[];
   lastCommentAt: number;
   requests: PurchaseRequest[];
-  orders: Record<string, boolean>; // slug лавки -> принимает ли заказы (перекрывает данные лавки)
+  orders: Record<string, boolean>;
   hideAi: boolean;
+  applications: ApplicationRecord[];                 // заявки, отправленные в этом браузере
+  decisions: Record<string, ApplicationDecision>;    // решения по заявкам (id заявки -> решение)
 };
 
 const KEY = "holstarium:social:v1";
@@ -34,6 +43,8 @@ export const DEFAULT_STATE: SocialState = {
   requests: [],
   orders: {},
   hideAi: false,
+  applications: [],
+  decisions: {},
 };
 
 let state: SocialState = DEFAULT_STATE;
@@ -83,13 +94,56 @@ const isRequest = (v: unknown): v is PurchaseRequest =>
   typeof v.createdAt === "number" &&
   (v.status === "new" || v.status === "read" || v.status === "replied");
 
+const isSample = (v: unknown): v is ApplicationSample =>
+  isObj(v) &&
+  typeof v.id === "string" &&
+  typeof v.name === "string" &&
+  typeof v.aiGenerated === "boolean";
+
+const isApplication = (v: unknown): v is ApplicationRecord =>
+  isObj(v) &&
+  typeof v.id === "string" &&
+  typeof v.nick === "string" &&
+  typeof v.email === "string" &&
+  Array.isArray(v.links) &&
+  v.links.every((x) => typeof x === "string") &&
+  Array.isArray(v.samples) &&
+  v.samples.every(isSample) &&
+  typeof v.district === "string" &&
+  typeof v.placeWish === "string" &&
+  typeof v.about === "string" &&
+  typeof v.createdAt === "number";
+
+function parseDecisions(v: unknown): Record<string, ApplicationDecision> {
+  const out: Record<string, ApplicationDecision> = {};
+  if (!isObj(v)) return out;
+  for (const [id, d] of Object.entries(v)) {
+    if (!isObj(d)) continue;
+    const status = d.status;
+    if (
+      (status === "approved" || status === "rejected" || status === "changes") &&
+      typeof d.decidedAt === "number"
+    ) {
+      out[id] = {
+        status,
+        comment: typeof d.comment === "string" ? d.comment : undefined,
+        districtSlug: typeof d.districtSlug === "string" ? d.districtSlug : undefined,
+        slotId: typeof d.slotId === "string" ? d.slotId : undefined,
+        decidedAt: d.decidedAt,
+      };
+    }
+  }
+  return out;
+}
+
 function parse(raw: string | null): SocialState {
   if (!raw) return DEFAULT_STATE;
   try {
     const d = JSON.parse(raw);
     if (!isObj(d)) return DEFAULT_STATE;
     return {
-      role: d.role === "visitor" || d.role === "owner" ? d.role : "guest",
+      role:
+        d.role === "visitor" || d.role === "owner" || d.role === "admin" ? d.role : "guest",
       likes: strings(d.likes),
       saved: strings(d.saved),
       follows: strings(d.follows),
@@ -102,6 +156,8 @@ function parse(raw: string | null): SocialState {
       requests: Array.isArray(d.requests) ? d.requests.filter(isRequest) : [],
       orders: bools(d.orders),
       hideAi: d.hideAi === true,
+      applications: Array.isArray(d.applications) ? d.applications.filter(isApplication) : [],
+      decisions: parseDecisions(d.decisions),
     };
   } catch {
     return DEFAULT_STATE;

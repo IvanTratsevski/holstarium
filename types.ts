@@ -191,3 +191,33 @@ export type PurchaseRequest = {
   createdAt: number;
   status: RequestStatus;
 };
+
+export type ApplicationStatus = "pending" | "approved" | "rejected" | "changes";
+
+export type ApplicationSample = {
+  id: string;
+  name: string;
+  placeholderColor?: string;
+  aspectRatio?: number;
+  aiGenerated: boolean;
+};
+
+export type ApplicationRecord = {
+  id: string;
+  nick: string;
+  email: string;
+  links: string[];
+  samples: ApplicationSample[];
+  district: string; // slug района или "unsure"
+  placeWish: string;
+  about: string;
+  createdAt: number;
+};
+
+export type ApplicationDecision = {
+  status: Exclude<ApplicationStatus, "pending">;
+  comment?: string;
+  districtSlug?: string;
+  slotId?: string;
+  decidedAt: number;
+};

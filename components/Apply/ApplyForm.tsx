@@ -17,6 +17,8 @@ import {
 import type { ApplicationForm, FormErrors, SampleDraft } from "@/lib/application";
 import { ALLOWED_TYPES, MAX_FILE_MB } from "@/lib/artworks";
 import styles from "./Apply.module.css";
+import { submitApplication } from "@/lib/applicationActions";
+
 
 type DistrictOption = { slug: string; name: string; description: string; free: number };
 
@@ -122,29 +124,35 @@ export default function ApplyForm({ districts }: { districts: DistrictOption[] }
     set("samples", form.samples.map((s) => (s.id === id ? { ...s, aiGenerated: value } : s)));
 
   const submit = (e: FormEvent) => {
-    e.preventDefault();
-    const number = `A-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+  e.preventDefault();
 
-    // ловушка для ботов: человек это поле не видит, а бот его заполняет
-    if (trapRef.current?.value) {
-      setSubmitted(number);
-      return;
-    }
+  // ловушка для ботов: человеку поле не видно, бот его заполняет
+  if (trapRef.current?.value) {
+    setSubmitted("A-000000");
+    return;
+  }
 
-    const found = validateApplication(
-      form,
-      districts.map((d) => d.slug)
-    );
-    setErrors(found);
-    if (Object.keys(found).length > 0) {
-      requestAnimationFrame(() => summaryRef.current?.focus());
-      return;
-    }
+  const found = validateApplication(
+    form,
+    districts.map((d) => d.slug)
+  );
+  setErrors(found);
+  if (Object.keys(found).length > 0) {
+    requestAnimationFrame(() => summaryRef.current?.focus());
+    return;
+  }
 
-    form.samples.forEach((s) => URL.revokeObjectURL(s.url));
-    setSubmitted(number);
-    requestAnimationFrame(() => doneRef.current?.focus());
-  };
+  const res = submitApplication(form);
+  if (!res.ok) {
+    setErrors({ email: res.error });
+    requestAnimationFrame(() => summaryRef.current?.focus());
+    return;
+  }
+
+  // адреса картинок не освобождаем: по ним админ-панель показывает примеры
+  setSubmitted(res.id);
+  requestAnimationFrame(() => doneRef.current?.focus());
+};
 
   if (submitted) {
     return (
@@ -176,7 +184,8 @@ export default function ApplyForm({ districts }: { districts: DistrictOption[] }
           Если ответа нет дольше недели, проверьте папку «Спам», а затем свяжитесь с администрацией
           (способ связи будет указан здесь перед запуском).
         </p>
-        <p className={styles.hint}>В прототипе письма не отправляются и ничего не сохраняется.</p>
+        <p className={styles.hint}>В прототипе заявка попадает в тестовую очередь админ-панели (роль «Админ» в нижней панели) и
+  хранится только в вашем браузере. Письма не отправляются.</p>
         <p>
           <Link href="/">← Вернуться на рынок</Link>
         </p>
@@ -447,7 +456,7 @@ export default function ApplyForm({ districts }: { districts: DistrictOption[] }
           />
           <span>
             Я автор отправленных работ и имею право их показывать, не публикую чужие материалы и
-            буду отмечать работы, созданные с помощью ИИ. Принимаю{" "}
+            откровенный сексуальный контент и буду отмечать работы, созданные с помощью ИИ. Принимаю{" "}
             <Link href="/rules" target="_blank" rel="noopener">
               правила сайта
             </Link>

@@ -1,0 +1,294 @@
+.wrap {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.note {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  opacity: 0.75;
+}
+
+.filters,
+.modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.filters button,
+.modes button {
+  min-height: 2.5rem;
+  padding: 0.3rem 1rem;
+  border: 1px solid #666;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.filters button[aria-pressed="true"],
+.modes button[aria-pressed="true"] {
+  border-color: #e07a5f;
+  background: #e07a5f;
+  color: #fff;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  margin: 0 0 0.75rem;
+  border: 1px solid #555;
+  border-radius: 10px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.rowMain {
+  display: flex;
+  flex: 1 1 12rem;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rowMain small {
+  opacity: 0.7;
+}
+
+.tag {
+  padding: 0.1rem 0.7rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.tag_pending {
+  color: #ffd166;
+}
+
+.tag_approved {
+  color: #81b29a;
+}
+
+.tag_changes {
+  color: #e07a5f;
+}
+
+.tag_rejected {
+  color: #ff8a8a;
+}
+
+.openBtn,
+.secondary {
+  min-height: 2.5rem;
+  padding: 0.3rem 1rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary {
+  min-height: 2.75rem;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid #e07a5f;
+  border-radius: 6px;
+  background: #e07a5f;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.detail {
+  padding: 0 0.9rem 1rem;
+  border-top: 1px solid #444;
+}
+
+.detail h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.detail h4 {
+  margin: 1rem 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 0.4rem 1rem;
+  margin: 1rem 0 0;
+}
+
+.facts dt {
+  opacity: 0.65;
+}
+
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .facts {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .facts dd {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.pre {
+  white-space: pre-line;
+}
+
+.links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links a {
+  color: #e07a5f;
+}
+
+.badLink {
+  color: #ff8a8a;
+}
+
+.samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sample {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 6px;
+  background: #333;
+  cursor: pointer;
+}
+
+.sample:hover,
+.sample:focus-visible {
+  outline: 3px solid #e07a5f;
+  outline-offset: -3px;
+}
+
+.sample img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.samplePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.decision {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px dashed #888;
+  border-radius: 10px;
+}
+
+.decision h3 {
+  margin-top: 0;
+}
+
+.placeRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0 0 0.9rem;
+}
+
+.field select,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.field select {
+  background: var(--background, #1f1f1f);
+  color: var(--foreground, #eee);
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.email {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #555;
+  border-radius: 8px;
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.emailSubject {
+  margin: 0 0 0.5rem;
+}
+
+.email pre {
+  margin: 0;
+  font: inherit;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.error {
+  margin: 0 0 0.75rem;
+  color: #ff8a8a;
+  font-size: 0.9rem;
+}

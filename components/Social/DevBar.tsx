@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { reset } from "@/lib/socialStore";
 import type { Role } from "@/lib/socialStore";
 import { useSocial } from "./SocialProvider";
@@ -9,6 +10,7 @@ const ROLES: { role: Role; label: string }[] = [
   { role: "guest", label: "Гость" },
   { role: "visitor", label: "Посетитель" },
   { role: "owner", label: "Владелец" },
+  { role: "admin", label: "Админ" },
 ];
 
 export default function DevBar() {
@@ -27,6 +29,11 @@ export default function DevBar() {
           {r.label}
         </button>
       ))}
+      {state.role === "admin" && (
+        <Link href="/admin" className={styles.link}>
+          Админ-панель →
+        </Link>
+      )}
       <button type="button" className={styles.reset} onClick={() => reset()}>
         Сбросить
       </button>

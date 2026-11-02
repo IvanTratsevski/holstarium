@@ -4,7 +4,12 @@ import { hash } from "@/lib/social";
 
 export const COMMENT_MAX = 500;
 export const COMMENT_COOLDOWN_MS = 20_000;
-export const REPORT_REASONS = ["Спам или реклама", "Оскорбления", "Другое"];
+export const REPORT_REASONS = [
+  "Спам или реклама",
+  "Оскорбления",
+  "Откровенные или недопустимые материалы",
+  "Другое",
+];
 
 // Простая проверка на адреса сайтов. На сервере будет строже.
 export const LINK_RE = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|ru|net|org|io|me|ly|gg|su|xyz)\b)/i;

@@ -43,3 +43,12 @@
     display: none;
   }
 }
+
+.bar {
+  overflow-x: auto; /* на узком экране панель прокручивается, а не обрезается */
+}
+
+.link {
+  color: #ffd166;
+  text-decoration: underline;
+}
