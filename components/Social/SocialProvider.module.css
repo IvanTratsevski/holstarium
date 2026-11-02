@@ -1,10 +1,10 @@
 .dialog {
   width: min(28rem, calc(100% - 2rem));
   padding: 1.25rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 10px;
-  background: var(--background, #1f1f1f);
-  color: var(--foreground, #eee);
+  background: var(--surface);
+  color: var(--foreground);
 }
 
 .dialog::backdrop {
@@ -31,7 +31,7 @@
 .row button {
   min-height: 2.75rem;
   padding: 0.45rem 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -40,7 +40,7 @@
 }
 
 .row .primary {
-  border-color: #e07a5f;
-  background: #e07a5f;
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
   color: #fff;
 }

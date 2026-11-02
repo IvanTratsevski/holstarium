@@ -1,9 +1,6 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+
 
 @theme inline {
   --color-background: var(--background);
@@ -12,11 +9,62 @@
   --font-mono: var(--font-geist-mono);
 }
 
+:root {
+  color-scheme: light;
+  --background: #faf8f5;
+  --foreground: #1d1c1a;
+  --surface: #ffffff;
+  --border: #d6d0c6;
+  --border-strong: #8a8378;
+  --accent-strong: #bf4e34;
+  --accent-text: #b1442b;
+  --success: #2e6b52;
+  --warn: #8a5a00;
+  --danger-text: #b3261e;
+  --danger-strong: #c4303a;
+  --like: #d1264a;
+}
+
+/* тёмная тема: выбранная вручную, «остров» (лайтбокс, панель прототипа) */
+:root[data-theme="dark"],
+.force-dark {
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --surface: #1c1c1c;
+  --border: #4a4a4a;
+  --border-strong: #6b6b6b;
+  --accent-strong: #bf4e34;
+  --accent-text: #e8856a;
+  --success: #81b29a;
+  --warn: #ffd166;
+  --danger-text: #ff8a8a;
+  --danger-strong: #c4303a;
+  --like: #ff6b81;
+}
+
+/* запасной вариант, если скрипт темы не сработал: следуем системе */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
+    color-scheme: dark;
     --background: #0a0a0a;
     --foreground: #ededed;
+    --surface: #1c1c1c;
+    --border: #4a4a4a;
+    --border-strong: #6b6b6b;
+    --accent-strong: #bf4e34;
+    --accent-text: #e8856a;
+    --success: #81b29a;
+    --warn: #ffd166;
+    --danger-text: #ff8a8a;
+    --danger-strong: #c4303a;
+    --like: #ff6b81;
   }
+}
+
+/* обычные ссылки без своих стилей: читаемый цвет в обеих темах */
+a:where(:not([class])) {
+  color: var(--accent-text);
 }
 
 body {

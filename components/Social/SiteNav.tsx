@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./SiteNav.module.css";
+import ThemeToggle from "@/components/Theme/ThemeToggle";
 
 export default function SiteNav() {
   return (
@@ -14,6 +15,9 @@ export default function SiteNav() {
         <li><Link href="/rules">Правила</Link></li>
         <li><Link href="/apply">Стать художником</Link></li>
       </ul>
+      <div className={styles.right}>
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

@@ -19,7 +19,7 @@
 /* карточка поста */
 .card {
   padding: 1rem;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 10px;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .pin {
-  color: #ffd166;
+  color: var(--warn);
 }
 
 .text {
@@ -88,7 +88,7 @@
   padding: 0.2rem 0;
   border: 0;
   background: transparent;
-  color: #e07a5f;
+  color: var(--accent-text);
   font: inherit;
   cursor: pointer;
 }
@@ -140,7 +140,7 @@
 
 .imgBtn:hover,
 .imgBtn:focus-visible {
-  outline: 3px solid #e07a5f;
+  outline: 3px solid var(--accent-strong);
   outline-offset: -3px;
 }
 
@@ -173,7 +173,7 @@
 .ownerActions button {
   min-height: 2.5rem;
   padding: 0.3rem 0.8rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -184,15 +184,15 @@
 
 .btn:hover,
 .ownerActions button:hover {
-  border-color: #e07a5f;
+  border-color: var(--accent-strong);
 }
 
 .primary {
   min-height: 2.5rem;
   padding: 0.3rem 1rem;
-  border: 1px solid #e07a5f;
+  border: 1px solid var(--accent-strong);
   border-radius: 6px;
-  background: #e07a5f;
+  background: var(--accent-strong);
   color: #fff;
   font: inherit;
   cursor: pointer;
@@ -201,9 +201,9 @@
 .danger {
   min-height: 2.5rem;
   padding: 0.3rem 1rem;
-  border: 1px solid #e5484d;
+  border: 1px solid var(--danger-strong);
   border-radius: 6px;
-  background: #e5484d;
+  background: var(--danger-strong);
   color: #fff;
   font: inherit;
   cursor: pointer;
@@ -233,7 +233,7 @@
 
 .error {
   margin: 0.4rem 0 0;
-  color: #ff8a8a;
+  color: var(--danger-text);
   font-size: 0.9rem;
 }
 
@@ -241,7 +241,7 @@
 .composer {
   margin-bottom: 1.5rem;
   padding: 1rem;
-  border: 1px dashed #888;
+  border: 1px dashed var(--border-strong);
   border-radius: 10px;
 }
 
@@ -262,7 +262,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 0.55rem 0.7rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -312,10 +312,10 @@
   right: -0.5rem;
   width: 2.25rem;
   height: 2.25rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 50%;
-  background: #222;
-  color: #fff;
+  background: var(--surface);
+  color: var(--foreground);
   font-size: 1.1rem;
   cursor: pointer;
 }

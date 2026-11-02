@@ -22,7 +22,7 @@
 .modes button {
   min-height: 2.5rem;
   padding: 0.3rem 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: transparent;
   color: inherit;
@@ -32,8 +32,8 @@
 
 .filters button[aria-pressed="true"],
 .modes button[aria-pressed="true"] {
-  border-color: #e07a5f;
-  background: #e07a5f;
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
   color: #fff;
 }
 
@@ -45,7 +45,7 @@
 
 .item {
   margin: 0 0 0.75rem;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 10px;
 }
 
@@ -76,26 +76,26 @@
 }
 
 .tag_pending {
-  color: #ffd166;
+  color: var(--warn);
 }
 
 .tag_approved {
-  color: #81b29a;
+  color: var(--success);
 }
 
 .tag_changes {
-  color: #e07a5f;
+  color: var(--accent-text);
 }
 
 .tag_rejected {
-  color: #ff8a8a;
+  color: var(--danger-text);
 }
 
 .openBtn,
 .secondary {
   min-height: 2.5rem;
   padding: 0.3rem 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -106,9 +106,9 @@
 .primary {
   min-height: 2.75rem;
   padding: 0.4rem 1.2rem;
-  border: 1px solid #e07a5f;
+  border: 1px solid var(--accent-strong);
   border-radius: 6px;
-  background: #e07a5f;
+  background: var(--accent-strong);
   color: #fff;
   font: inherit;
   cursor: pointer;
@@ -116,7 +116,7 @@
 
 .detail {
   padding: 0 0.9rem 1rem;
-  border-top: 1px solid #444;
+  border-top: 1px solid var(--border);
 }
 
 .detail h3 {
@@ -167,11 +167,11 @@
 }
 
 .links a {
-  color: #e07a5f;
+  color: var(--accent-text);
 }
 
 .badLink {
-  color: #ff8a8a;
+  color: var(--danger-text);
 }
 
 .samples {
@@ -198,7 +198,7 @@
 
 .sample:hover,
 .sample:focus-visible {
-  outline: 3px solid #e07a5f;
+  outline: 3px solid var(--accent-strong);
   outline-offset: -3px;
 }
 
@@ -225,7 +225,7 @@
 .decision {
   margin-top: 1.5rem;
   padding: 1rem;
-  border: 1px dashed #888;
+  border: 1px dashed var(--border-strong);
   border-radius: 10px;
 }
 
@@ -251,7 +251,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 0.55rem 0.7rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -259,8 +259,8 @@
 }
 
 .field select {
-  background: var(--background, #1f1f1f);
-  color: var(--foreground, #eee);
+  background: var(--surface);
+  color: var(--foreground);
 }
 
 .field textarea {
@@ -270,7 +270,7 @@
 .email {
   margin: 0 0 1rem;
   padding: 0.75rem 0.9rem;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 8px;
   background: rgba(128, 128, 128, 0.1);
 }
@@ -289,6 +289,6 @@
 
 .error {
   margin: 0 0 0.75rem;
-  color: #ff8a8a;
+  color: var(--danger-text);
   font-size: 0.9rem;
 }

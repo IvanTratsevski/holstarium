@@ -17,7 +17,7 @@ export default function DevBar() {
   const { state, setRole } = useSocial();
 
   return (
-    <div className={styles.bar} role="group" aria-label="Только для прототипа: роль зрителя">
+    <div className={`${styles.bar} force-dark`} role="group" aria-label="Только для прототипа: роль зрителя">
       <span className={styles.label}>Прототип · смотреть как:</span>
       {ROLES.map((r) => (
         <button

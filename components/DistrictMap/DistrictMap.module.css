@@ -3,7 +3,7 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  border: 2px solid #444;
+  border: 2px solid var(--border);
   background: #111;
 }
 
@@ -57,7 +57,7 @@
 
 .marker:hover circle,
 .marker:focus-visible circle {
-  stroke: #ffd166;
+  stroke: var(--warn);
 }
 
 .initial {

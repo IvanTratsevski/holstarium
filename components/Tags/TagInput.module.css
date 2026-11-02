@@ -9,13 +9,13 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.45rem 0.6rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   cursor: text;
 }
 
 .box:focus-within {
-  border-color: #e07a5f;
+  border-color: var(--accent-strong);
 }
 
 .chip {
@@ -64,9 +64,9 @@
   margin: 0.25rem 0 0;
   padding: 0.25rem;
   list-style: none;
-  background: var(--background, #1f1f1f);
-  color: var(--foreground, #eee);
-  border: 1px solid #666;
+  background: var(--surface);
+  color: var(--foreground);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }

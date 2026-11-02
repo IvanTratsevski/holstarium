@@ -7,7 +7,7 @@
 
 .filters button {
   padding: 0.5rem 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: transparent;
   color: inherit;
@@ -16,8 +16,8 @@
 }
 
 .filters .active {
-  background: #e07a5f;
-  border-color: #e07a5f;
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
   color: #fff;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .work:focus-visible {
-  outline: 3px solid #e07a5f;
+  outline: 3px solid var(--accent-strong);
   outline-offset: 2px;
 }
 
@@ -96,7 +96,7 @@
 .scope {
   display: inline-flex;
   margin-bottom: 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -112,7 +112,7 @@
 }
 
 .scope button[aria-pressed="true"] {
-  background: #e07a5f;
+  background: var(--accent-strong);
   color: #fff;
 }
 
@@ -151,7 +151,7 @@
 .tagChip,
 .more {
   padding: 0.35rem 0.75rem;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -166,12 +166,12 @@
 
 .tagChip:hover,
 .more:hover {
-  border-color: #e07a5f;
+  border-color: var(--accent-strong);
 }
 
 .tagActive {
   background: rgba(224, 122, 95, 0.25);
-  border-color: #e07a5f;
+  border-color: var(--accent-strong);
 }
 
 .more {
@@ -188,7 +188,7 @@
 }
 
 .price {
-  color: #81b29a;
+  color: var(--success);
   font-weight: 600;
   opacity: 1 !important;
 }

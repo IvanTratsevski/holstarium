@@ -1,0 +1,114 @@
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 8px 0;
+  background: var(--accent-strong);
+  color: #fff;
+}
+
+.skip:focus {
+  left: 0;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  max-width: 1400px;
+  min-height: 3.5rem;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav {
+  display: none;
+}
+
+.nav ul {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
+  border-radius: 8px;
+  color: var(--foreground);
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+  background: rgba(128, 128, 128, 0.15);
+  opacity: 1;
+}
+
+.nav a:focus-visible,
+.logo:focus-visible,
+.login:focus-visible {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.nav a[aria-current="page"] {
+  background: color-mix(in srgb, var(--accent-strong) 20%, transparent);
+  opacity: 1;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.auth {
+  display: none;
+}
+
+.login {
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.login:hover {
+  border-color: var(--accent-strong);
+}
+
+@media (min-width: 720px) {
+  .nav,
+  .auth {
+    display: block;
+  }
+}

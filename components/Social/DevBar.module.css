@@ -15,12 +15,13 @@
   white-space: nowrap;
   transform: translateX(-50%);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .bar button {
   min-height: 2.25rem;
   padding: 0.3rem 0.8rem;
-  border: 1px solid #888;
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: transparent;
   color: inherit;
@@ -29,8 +30,8 @@
 }
 
 .bar button[aria-pressed="true"] {
-  border-color: #e07a5f;
-  background: #e07a5f;
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
 }
 
 .bar .reset {
@@ -49,6 +50,6 @@
 }
 
 .link {
-  color: #ffd166;
+  color: var(--warn);
   text-decoration: underline;
 }

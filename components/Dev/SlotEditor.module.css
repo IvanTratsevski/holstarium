@@ -23,7 +23,7 @@
 .toolbar button,
 .outputHead button {
   padding: 0.45rem 0.9rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -39,13 +39,13 @@
 .viewport {
   max-height: 75vh;
   overflow: auto;
-  border: 2px solid #444;
+  border: 2px solid var(--border);
   background: #111;
   outline: none;
 }
 
 .viewport:focus-visible {
-  border-color: #ffd166;
+  border-color: var(--warn);
 }
 
 .svg {
@@ -92,6 +92,6 @@
   box-sizing: border-box;
   background: #1b1b1b;
   color: #ddd;
-  border: 1px solid #444;
+  border: 1px solid var(--border);
   border-radius: 6px;
 }

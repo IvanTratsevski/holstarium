@@ -15,27 +15,27 @@
 
 .btn:hover,
 .btn:focus-visible {
-  border-color: #e07a5f;
+  border-color: var(--accent-strong);
 }
 
 .likeOn {
-  border-color: #ff6b81;
-  color: #ff6b81;
+  border-color: var(--like);
+  color: var(--like);
 }
 
 .saveOn {
-  border-color: #ffd166;
+  border-color: var(--warn);
   background: rgba(255, 209, 102, 0.18);
 }
 
 .followOff {
-  border-color: #e07a5f;
-  background: #e07a5f;
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
   color: #fff;
 }
 
 .followOn {
-  border-color: #81b29a;
+  border-color: var(--success);
 }
 
 .followWrap {

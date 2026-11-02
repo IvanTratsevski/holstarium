@@ -43,7 +43,7 @@ export default function Lightbox({artworks, index, onClose, onChange, onTagClick
   return (
     <dialog
       ref={dialogRef}
-      className={styles.dialog}
+      className={`${styles.dialog} force-dark`}
       data-close="true"
       onClose={onClose} // срабатывает и на Esc
       onClick={(e) => {

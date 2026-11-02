@@ -170,5 +170,5 @@ button.tag:focus-visible {
 }
 
 .price strong {
-  color: #ffd166;
+  color: var(--warn);
 }

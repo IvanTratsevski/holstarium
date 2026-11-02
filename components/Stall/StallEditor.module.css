@@ -1,6 +1,6 @@
 .panel {
   padding: 1rem;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 10px;
 }
 
@@ -42,7 +42,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 0.55rem 0.7rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -54,7 +54,7 @@
 }
 
 .field input[aria-invalid="true"] {
-  border-color: #e5484d;
+  border-color: var(--danger-strong);
 }
 
 .colors {
@@ -73,8 +73,8 @@
 }
 
 .swatch[aria-pressed="true"] {
-  border-color: #fff;
-  outline: 2px solid #e07a5f;
+  border-color: var(--background);
+  outline: 2px solid var(--accent-strong);
 }
 
 .colors input[type="color"] {
@@ -97,7 +97,7 @@
 .warn {
   margin: 0.25rem 0 0;
   font-size: 0.9rem;
-  color: #f2cc8f;
+  color: var(--warn);
 }
 
 .count {
@@ -127,13 +127,13 @@
 }
 
 .error {
-  color: #ff8a8a;
+  color: var(--danger-text);
 }
 
 .iconBtn {
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -145,7 +145,7 @@
   align-self: flex-start;
   min-height: 2.5rem;
   padding: 0.45rem 0.9rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -155,7 +155,7 @@
 
 .btn:hover:not(:disabled),
 .iconBtn:hover {
-  border-color: #e07a5f;
+  border-color: var(--accent-strong);
 }
 
 .btn:disabled {
@@ -166,7 +166,7 @@
 .tabs {
   display: flex;
   margin-bottom: 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -182,6 +182,6 @@
 }
 
 .tabs button[aria-pressed="true"] {
-  background: #e07a5f;
+  background: var(--accent-strong);
   color: #fff;
 }

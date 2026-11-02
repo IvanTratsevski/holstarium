@@ -7,9 +7,9 @@
   gap: 0.4rem;
   min-height: 2.5rem;
   padding: 0.3rem 0.9rem;
-  border: 1px solid #e07a5f;
+  border: 1px solid var(--accent-strong);
   border-radius: 999px;
-  background: #e07a5f;
+  background: var(--accent-strong);
   color: #fff;
   font: inherit;
   font-size: 0.95rem;
@@ -56,7 +56,7 @@
 }
 
 .badgeOpen {
-  color: #81b29a;
+  color: var(--success);
 }
 
 .badgeClosed {
@@ -69,10 +69,10 @@
   max-height: calc(100vh - 2rem);
   padding: 1.25rem;
   overflow-y: auto;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 10px;
-  background: var(--background, #1f1f1f);
-  color: var(--foreground, #eee);
+  background: var(--surface);
+  color: var(--foreground);
 }
 
 .dialog::backdrop {
@@ -101,7 +101,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 0.55rem 0.7rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -133,12 +133,12 @@
 }
 
 .safety a {
-  color: #e07a5f;
+  color: var(--accent-text);
 }
 
 .error {
   margin: 0 0 0.75rem;
-  color: #ff8a8a;
+  color: var(--danger-text);
   font-size: 0.9rem;
 }
 
@@ -153,7 +153,7 @@
 .danger {
   min-height: 2.5rem;
   padding: 0.3rem 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -162,14 +162,14 @@
 }
 
 .primary {
-  border-color: #e07a5f;
-  background: #e07a5f;
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
   color: #fff;
 }
 
 .danger {
-  border-color: #e5484d;
-  background: #e5484d;
+  border-color: var(--danger-strong);
+  background: var(--danger-strong);
   color: #fff;
 }
 
@@ -191,7 +191,7 @@
 }
 
 .info a {
-  color: #e07a5f;
+  color: var(--accent-text);
 }
 
 .filters {
@@ -203,7 +203,7 @@
 .filters button {
   min-height: 2.5rem;
   padding: 0.3rem 1rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: transparent;
   color: inherit;
@@ -212,8 +212,8 @@
 }
 
 .filters button[aria-pressed="true"] {
-  border-color: #e07a5f;
-  background: #e07a5f;
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
   color: #fff;
 }
 
@@ -226,12 +226,12 @@
 .item {
   margin: 0 0 0.75rem;
   padding: 0.9rem;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 10px;
 }
 
 .itemNew {
-  border-color: #e07a5f;
+  border-color: var(--accent-strong);
   background: rgba(224, 122, 95, 0.08);
 }
 
@@ -256,7 +256,7 @@
 }
 
 .tagNew {
-  color: #e07a5f;
+  color: var(--accent-text);
 }
 
 .tagRead {
@@ -264,7 +264,7 @@
 }
 
 .tagReplied {
-  color: #81b29a;
+  color: var(--success);
 }
 
 .work {
@@ -286,7 +286,7 @@
 }
 
 .contact a {
-  color: #e07a5f;
+  color: var(--accent-text);
 }
 
 .itemActions,
@@ -301,7 +301,7 @@
 .confirm button {
   min-height: 2.5rem;
   padding: 0.3rem 0.8rem;
-  border: 1px solid #666;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -318,8 +318,8 @@
 }
 
 .confirm .danger {
-  border-color: #e5484d;
-  background: #e5484d;
+  border-color: var(--danger-strong);
+  background: var(--danger-strong);
   color: #fff;
 }
 

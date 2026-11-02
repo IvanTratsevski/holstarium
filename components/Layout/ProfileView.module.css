@@ -1,0 +1,43 @@
+.wrap {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.list {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.list a {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  border-bottom: 1px solid var(--border);
+  color: inherit;
+  text-decoration: none;
+}
+
+.list a:hover,
+.list a:focus-visible {
+  color: var(--accent-text);
+}
+
+.btn,
+.primary {
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary {
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
+  color: #fff;
+}
