@@ -221,3 +221,19 @@ export type ApplicationDecision = {
   slotId?: string;
   decidedAt: number;
 };
+
+export type ArtistCardData = {
+  slug: string;
+  artistName: string;
+  bio?: string;
+  signText: string;
+  accentColor: string;
+  artworksCount: number;
+  previews: ArtworkPreview[];
+  districtName?: string;
+};
+
+export type ArtistView = ArtistCardData & {
+  districtSlug: string;
+  districtName: string;
+};

@@ -75,6 +75,20 @@ body {
 body:has(dialog[open]) {
   overflow: hidden;
 }
+:root {
+  --bottomnav-h: 0px;
+}
+
+@media (max-width: 719px) {
+  :root {
+    --bottomnav-h: 3.75rem;
+  }
+}
+
 body {
-  padding-bottom: 4.5rem;
+  padding-bottom: calc(4.5rem + var(--bottomnav-h));
+}
+
+#content:focus {
+  outline: none;
 }

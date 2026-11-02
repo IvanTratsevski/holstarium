@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SocialProvider from "@/components/Social/SocialProvider";
-import SiteNav from "@/components/Social/SiteNav";
 import DevBar from "@/components/Social/DevBar";
 import RequestProvider from "@/components/Requests/RequestProvider";
+import SiteHeader from "@/components/Layout/SiteHeader";
+import SiteFooter from "@/components/Layout/SiteFooter";
+import BottomNav from "@/components/Layout/BottomNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,9 +37,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <SocialProvider>
           <RequestProvider>
-            <SiteNav />
-            {children}
-            <DevBar />
+            <SiteHeader />
+              <div id="content" tabIndex={-1} style={{ flex: "1 0 auto" }}>
+                {children}
+              </div>
+              <SiteFooter />
+              <BottomNav />
+              <DevBar />
           </RequestProvider>
         </SocialProvider>
       </body>

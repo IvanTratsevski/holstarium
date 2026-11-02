@@ -37,6 +37,7 @@
   color: var(--foreground);
   text-align: left;
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+  bottom: var(--bottomnav-h);
 }
 
 .head {
