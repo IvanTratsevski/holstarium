@@ -1,0 +1,264 @@
+.dialog {
+  position: fixed;
+  inset: auto 0 0 0;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 18px 18px 0 0;
+  background: var(--surface);
+  color: var(--foreground);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
+
+.head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.close {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus-visible {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 1rem 0.5rem;
+  overflow-y: auto;
+}
+
+.body section {
+  margin: 0 0 1.25rem;
+}
+
+.body h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.chip:hover:not(:disabled),
+.chip:focus-visible {
+  border-color: var(--accent-strong);
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
+  color: #fff;
+}
+
+.chip:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.more {
+  border-style: dashed;
+}
+
+.count {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3rem;
+  cursor: pointer;
+}
+
+.switch input {
+  position: relative;
+  flex: none;
+  width: 2.75rem;
+  height: 1.5rem;
+  margin: 0;
+  border-radius: 999px;
+  background: var(--border-strong);
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.switch input::after {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+
+.switch input:checked {
+  background: var(--accent-strong);
+}
+
+.switch input:checked::after {
+  transform: translateX(1.25rem);
+}
+
+.switch input:focus-visible,
+.chip:focus-visible,
+.close:focus-visible,
+.reset:focus-visible,
+.apply:focus-visible {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.foot {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border);
+}
+
+.reset,
+.apply {
+  min-height: 2.75rem;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.reset {
+  flex: 1;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: inherit;
+}
+
+.apply {
+  flex: 2;
+  border: 1px solid var(--accent-strong);
+  background: var(--accent-strong);
+  color: #fff;
+}
+
+.reset:disabled,
+.apply:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dialog[open] {
+    animation: from-bottom 0.2s ease-out;
+  }
+
+  @keyframes from-bottom {
+    from {
+      transform: translateY(100%);
+    }
+  }
+}
+
+/* компьютер: панель справа во всю высоту */
+@media (min-width: 720px) {
+  .dialog {
+    inset: 0 0 0 auto;
+    width: 24rem;
+    max-width: 100%;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .box {
+    height: 100%;
+    max-height: none;
+  }
+
+  .body {
+    padding-top: 0.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dialog[open] {
+      animation: from-right 0.2s ease-out;
+    }
+
+    @keyframes from-right {
+      from {
+        transform: translateX(100%);
+      }
+    }
+  }
+}
+
+.hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}

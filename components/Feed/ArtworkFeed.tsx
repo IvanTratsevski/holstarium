@@ -4,26 +4,27 @@ import { useState } from "react";
 import Link from "next/link";
 import type { FeedItem, LightboxItem, PostView } from "@/types";
 import { MIN_CUSTOM_TAG_COUNT } from "@/data/tags";
-import { buildCatalog, toTagList } from "@/lib/tags";
+import { activeCount, applyFilters } from "@/lib/feedFilters";
+import type { FeedFilters } from "@/lib/feedFilters";
+import { formatPrice } from "@/lib/sale";
+import { setHideAi } from "@/lib/socialActions";
+import { buildCatalog, tagName, toTagList } from "@/lib/tags";
 import { withBase } from "@/lib/withBase";
+import AiBadge from "@/components/Badges/AiBadge";
 import Lightbox from "@/components/Lightbox/Lightbox";
+import PostList from "@/components/Posts/PostList";
 import LikeButton from "@/components/Social/LikeButton";
 import SaveButton from "@/components/Social/SaveButton";
 import { useSocial } from "@/components/Social/SocialProvider";
+import FilterPanel from "./FilterPanel";
 import styles from "./ArtworkFeed.module.css";
-import PostList from "@/components/Posts/PostList";
-import { formatPrice } from "@/lib/sale";
-import AiBadge from "@/components/Badges/AiBadge";
-import { setHideAi } from "@/lib/socialActions";
-
-const TAGS_COLLAPSED = 8;
 
 type Props = {
   items: FeedItem[];
-  districts?: { slug: string; name: string }[];
-  allowFollowScope?: boolean;
+  districts?: { slug: string; name: string }[]; // без него фильтра по районам нет
+  allowFollowScope?: boolean; // переключатель «Все работы / Подписки»
   emptyText?: string;
-  posts?: PostView[]; // новое: показываются на вкладке «Подписки»
+  posts?: PostView[]; // объявления, они показываются на вкладке «Подписки»
 };
 
 export default function ArtworkFeed({
@@ -35,13 +36,21 @@ export default function ArtworkFeed({
 }: Props) {
   const { state, loggedIn, requireAuth } = useSocial();
   const [scope, setScope] = useState<"all" | "follows">("all");
-  const [district, setDistrict] = useState<string>("all");
-  const [tag, setTag] = useState<string | null>(null);
-  const [showAllTags, setShowAllTags] = useState(false);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [district, setDistrict] = useState("all");
+  const [tags, setTags] = useState<string[]>([]);
   const [onlySale, setOnlySale] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   // если пользователь вышел, «Подписки» больше недоступны
   const activeScope = loggedIn ? scope : "all";
+
+  const filters: FeedFilters = { district, tags, onlySale, hideAi: state.hideAi };
+  const activeN = activeCount(filters);
+
+  const toggleTag = (key: string) =>
+    setTags((list) => (list.includes(key) ? list.filter((k) => k !== key) : [...list, key]));
+  const addTag = (key: string) => setTags((list) => (list.includes(key) ? list : [...list, key]));
 
   const pickScope = (next: "all" | "follows") => {
     if (
@@ -52,41 +61,67 @@ export default function ArtworkFeed({
     }
     setScope(next);
     setDistrict("all");
-    setTag(null);
+    setTags([]);
   };
 
-  const pickDistrict = (slug: string) => {
-    setDistrict(slug);
-    setTag(null);
+  const reset = () => {
+    setDistrict("all");
+    setTags([]);
+    setOnlySale(false);
+    setHideAi(false);
   };
 
   const byScope =
-  activeScope === "follows" ? items.filter((i) => state.follows.includes(i.stallSlug)) : items;
-  const scoped = byScope.filter(
-  (i) => (!onlySale || i.sale) && (!state.hideAi || !i.aiGenerated)
-  );
+    activeScope === "follows" ? items.filter((i) => state.follows.includes(i.stallSlug)) : items;
+  const visible = applyFilters(byScope, filters);
 
-  // последние объявления тех, на кого вы подписаны
+  // варианты в панели считаются без собственного фильтра, но с остальными
+  const forDistricts = applyFilters(byScope, filters, "district");
+  const districtOptions = districts.map((d) => ({
+    ...d,
+    count: forDistricts.filter((i) => i.districtSlug === d.slug).length,
+  }));
+
+  // Теги. Список и порядок определяют все фильтры, кроме тегов, чтобы порядок не прыгал при выборе.
+  // Официальные теги показываем всегда, самодельные только когда ими отмечено достаточно работ.
+  // Число у тега это сколько работ останется, если его добавить к уже выбранным.
+  const forTags = applyFilters(byScope, filters, "tags");
+  const baseTags = buildCatalog(forTags)
+    .filter((t) => t.count > 0 && (t.official || t.count >= MIN_CUSTOM_TAG_COUNT))
+    .sort((a, b) => b.count - a.count);
+  const poolCounts = new Map(buildCatalog(visible).map((t) => [t.key, t.count]));
+  const tagOptions = [
+    ...baseTags.map((t) => ({ ...t, count: poolCounts.get(t.key) ?? 0 })),
+    // выбранные теги остаются в списке, даже если под другими фильтрами у них нет работ
+    ...tags
+      .filter((k) => !baseTags.some((t) => t.key === k))
+      .map((k) => ({
+        key: k,
+        name: tagName(k),
+        count: poolCounts.get(k) ?? 0,
+        official: false,
+      })),
+  ];
+
+  // выбранные фильтры чипами над лентой
+  const chips: { id: string; label: string; remove: () => void }[] = [];
+  if (district !== "all") {
+    chips.push({
+      id: "district",
+      label: districts.find((d) => d.slug === district)?.name ?? district,
+      remove: () => setDistrict("all"),
+    });
+  }
+  for (const key of tags) {
+    chips.push({ id: `tag-${key}`, label: `#${tagName(key)}`, remove: () => toggleTag(key) });
+  }
+  if (onlySale) chips.push({ id: "sale", label: "В продаже", remove: () => setOnlySale(false) });
+  if (state.hideAi) chips.push({ id: "ai", label: "Без ИИ", remove: () => setHideAi(false) });
+
   const followedPosts =
     activeScope === "follows"
       ? posts.filter((p) => state.follows.includes(p.stallSlug)).slice(0, 6)
       : [];
-
-  const inDistrict =
-    district === "all" ? scoped : scoped.filter((i) => i.districtSlug === district);
-
-  // Чипы тегов считаются по выбранному району.
-  // Официальные показываем всегда, самодельные только когда их достаточно;
-  // выбранный тег всегда виден и стоит первым.
-  const chips = buildCatalog(inDistrict)
-    .filter(
-      (t) =>
-        t.count > 0 && (t.official || t.count >= MIN_CUSTOM_TAG_COUNT || t.key === tag)
-    )
-    .sort((a, b) => Number(b.key === tag) - Number(a.key === tag) || b.count - a.count);
-  const shownChips = showAllTags ? chips : chips.slice(0, TAGS_COLLAPSED);
-
-  const visible = tag ? inDistrict.filter((i) => i.tags?.includes(tag)) : inDistrict;
 
   const lightboxItems: LightboxItem[] = visible.map((i) => ({
     ...i,
@@ -95,114 +130,92 @@ export default function ArtworkFeed({
     tagList: toTagList(i.tags),
   }));
 
-  const countOf = (slug: string) => scoped.filter((i) => i.districtSlug === slug).length;
-
   return (
     <section>
-      {allowFollowScope && (
-        <div className={styles.scope} role="group" aria-label="Какие работы показывать">
-          <button
-            type="button"
-            aria-pressed={activeScope === "all"}
-            onClick={() => pickScope("all")}
-          >
-            Все работы
-          </button>
-          <button
-            type="button"
-            aria-pressed={activeScope === "follows"}
-            onClick={() => pickScope("follows")}
-          >
-            Подписки{loggedIn ? ` (${state.follows.length})` : ""}
-          </button>
-        </div>
-      )}
-      {followedPosts.length > 0 && (
-          <section aria-label="Объявления художников">
-            <h2>Объявления</h2>
-            <PostList posts={followedPosts} showAuthor />
-            <h2>Работы</h2>
-          </section>
+      <div className={styles.toolbar}>
+        {allowFollowScope && (
+          <div className={styles.scope} role="group" aria-label="Какие работы показывать">
+            <button
+              type="button"
+              aria-pressed={activeScope === "all"}
+              onClick={() => pickScope("all")}
+            >
+              Все работы
+            </button>
+            <button
+              type="button"
+              aria-pressed={activeScope === "follows"}
+              onClick={() => pickScope("follows")}
+            >
+              Подписки{loggedIn ? ` (${state.follows.length})` : ""}
+            </button>
+          </div>
         )}
 
-      {districts.length > 1 && (
-        <div className={styles.filters} role="group" aria-label="Фильтр по районам">
-          <button
-            type="button"
-            aria-pressed={district === "all"}
-            className={district === "all" ? styles.active : ""}
-            onClick={() => pickDistrict("all")}
-          >
-            Все ({scoped.length})
-          </button>
-          {districts.map((d) => (
-            <button
-              key={d.slug}
-              type="button"
-              aria-pressed={district === d.slug}
-              className={district === d.slug ? styles.active : ""}
-              onClick={() => pickDistrict(d.slug)}
-            >
-              {d.name} ({countOf(d.slug)})
-            </button>
-          ))}
-        </div>
-      )}
-      <div className={styles.toggles}>
-        <label className={styles.saleToggle}>
-          <input
-            type="checkbox"
-            checked={onlySale}
-            onChange={(e) => {
-              setOnlySale(e.target.checked);
-              setTag(null);
-            }}
-          />
-          Только в продаже
-        </label>
-        <label className={styles.saleToggle}>
-          <input
-            type="checkbox"
-            checked={state.hideAi}
-            onChange={(e) => {
-              setHideAi(e.target.checked);
-              setTag(null);
-            }}
-          />
-          Скрыть работы с ИИ
-        </label>
+        <button
+          type="button"
+          className={`${styles.filterBtn} ${activeN > 0 ? styles.filterBtnOn : ""}`}
+          aria-haspopup="dialog"
+          onClick={() => setPanelOpen(true)}
+        >
+          Фильтры
+          {activeN > 0 && (
+            <>
+              <span className={styles.badge} aria-hidden="true">
+                {activeN}
+              </span>
+              <span className={styles.srOnly}>, выбрано: {activeN}</span>
+            </>
+          )}
+        </button>
+
+        <span className={styles.total} role="status">
+          Работ: {visible.length}
+        </span>
       </div>
+
       {chips.length > 0 && (
-        <div className={styles.tagRow} role="group" aria-label="Фильтр по тегам">
-          {shownChips.map((t) => (
+        <div className={styles.applied} role="group" aria-label="Выбранные фильтры">
+          {chips.map((c) => (
             <button
-              key={t.key}
+              key={c.id}
               type="button"
-              aria-pressed={tag === t.key}
-              className={`${styles.tagChip} ${tag === t.key ? styles.tagActive : ""}`}
-              onClick={() => setTag(tag === t.key ? null : t.key)}
+              className={styles.chipX}
+              aria-label={`Убрать фильтр: ${c.label}`}
+              onClick={c.remove}
             >
-              #{t.name} <span>{t.count}</span>
+              {c.label} <span aria-hidden="true">×</span>
             </button>
           ))}
-          {chips.length > TAGS_COLLAPSED && (
-            <button
-              type="button"
-              className={styles.more}
-              onClick={() => setShowAllTags((v) => !v)}
-            >
-              {showAllTags ? "Свернуть" : `Ещё ${chips.length - TAGS_COLLAPSED}`}
+          {chips.length > 1 && (
+            <button type="button" className={styles.clearAll} onClick={reset}>
+              Сбросить всё
             </button>
           )}
         </div>
       )}
 
+      {followedPosts.length > 0 && (
+        <section aria-label="Объявления художников">
+          <h2>Объявления</h2>
+          <PostList posts={followedPosts} showAuthor />
+          <h2>Работы</h2>
+        </section>
+      )}
+
       {visible.length === 0 ? (
         activeScope === "follows" && state.follows.length === 0 ? (
           <p>
-            Вы пока ни на кого не подписаны. Откройте <Link href="/">любой район</Link> и
-            подпишитесь на понравившихся художников.
+            Вы пока ни на кого не подписаны. Загляните на страницу{" "}
+            <Link href="/artists">«Художники»</Link> и подпишитесь на понравившихся авторов.
           </p>
+        ) : activeN > 0 ? (
+          <div>
+            <p>По выбранным фильтрам ничего не нашлось.</p>
+            <button type="button" className={styles.clearAll} onClick={reset}>
+              Сбросить фильтры
+            </button>
+          </div>
         ) : (
           <p>{emptyText}</p>
         )
@@ -218,7 +231,6 @@ export default function ArtworkFeed({
                   item.aiGenerated ? ", создано с помощью ИИ" : ""
                 }`}
               >
-                {item.aiGenerated && <AiBadge />}
                 {item.imageUrl ? (
                   <img
                     src={withBase(item.imageUrl)}
@@ -238,6 +250,7 @@ export default function ArtworkFeed({
                     {item.title}
                   </span>
                 )}
+                {item.aiGenerated && <AiBadge />}
               </button>
 
               <div className={styles.meta}>
@@ -265,9 +278,27 @@ export default function ArtworkFeed({
         onClose={() => setOpenIndex(null)}
         onChange={setOpenIndex}
         onTagClick={(key) => {
-          setTag(key);
+          addTag(key);
           setOpenIndex(null);
         }}
+      />
+
+      <FilterPanel
+        open={panelOpen}
+        onClose={() => setPanelOpen(false)}
+        resultCount={visible.length}
+        districts={districts.length > 1 ? districtOptions : []}
+        district={district}
+        onDistrict={setDistrict}
+        tags={tagOptions}
+        selectedTags={tags}
+        onToggleTag={toggleTag}
+        onlySale={onlySale}
+        onOnlySale={setOnlySale}
+        hideAi={state.hideAi}
+        onHideAi={setHideAi}
+        canReset={activeN > 0}
+        onReset={reset}
       />
     </section>
   );
