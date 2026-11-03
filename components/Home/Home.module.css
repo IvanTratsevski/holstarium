@@ -1,0 +1,181 @@
+.mapRoot {
+  max-width: 1400px;
+  margin: 0 auto 1.5rem;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: #111;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.area {
+  cursor: pointer;
+  outline: none;
+}
+
+.area polygon {
+  fill-opacity: 0.38;
+  stroke: rgba(255, 255, 255, 0.65);
+  stroke-width: 6;
+  stroke-linejoin: round;
+  transition: fill-opacity 0.15s;
+}
+
+.area[data-active="true"] polygon,
+.area:hover polygon {
+  fill-opacity: 0.68;
+  stroke: #fff;
+  stroke-width: 10;
+}
+
+.area:focus-visible polygon {
+  fill-opacity: 0.68;
+  stroke: #ffd166;
+  stroke-width: 14;
+}
+
+.name,
+.sub {
+  fill: #fff;
+  font-weight: 700;
+  stroke: rgba(0, 0, 0, 0.75);
+  paint-order: stroke;
+  pointer-events: none;
+}
+
+.name {
+  stroke-width: 12px;
+}
+
+.sub {
+  stroke-width: 8px;
+  font-weight: 500;
+}
+
+/* на узких экранах мелкая подпись нечитаема, остаётся только название */
+@media (max-width: 719px) {
+  .sub {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .area polygon {
+    transition: none;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  height: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-left-width: 6px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card:hover,
+.card:focus-visible,
+.card[data-active="true"] {
+  border-color: var(--accent-strong);
+  background: color-mix(in srgb, var(--accent-strong) 8%, transparent);
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.desc {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.card small {
+  margin-top: auto;
+  opacity: 0.7;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.sectionHead h2 {
+  margin: 0;
+}
+
+.sectionHead a {
+  color: var(--accent-text);
+}
+
+.works {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  background: #333;
+  cursor: pointer;
+}
+
+.work:hover,
+.work:focus-visible {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: -3px;
+}
+
+.work img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workPh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  color: #fff;
+  text-align: center;
+}

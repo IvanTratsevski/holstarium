@@ -63,6 +63,7 @@ export type District = {
   mapImage?: string; // пока нет картинки, рисуется заглушка
   mapWidth: number;  // размер картинки в пикселях, в этих единицах хранятся координаты слотов
   mapHeight: number;
+  area?: DistrictArea; // область района на общем плане рынка
 };
 
 export type MapSlot = {
@@ -236,4 +237,21 @@ export type ArtistCardData = {
 export type ArtistView = ArtistCardData & {
   districtSlug: string;
   districtName: string;
+};
+
+export type DistrictArea = {
+  points: [number, number][]; // вершины многоугольника в пикселях общего плана
+  label: [number, number];    // где подписать район
+  color: string;              // цвет заливки
+};
+
+export type MarketMap = { width: number; height: number; image?: string };
+
+export type MapDistrictView = {
+  slug: string;
+  name: string;
+  description: string;
+  area?: DistrictArea;
+  stalls: number;
+  free: number;
 };

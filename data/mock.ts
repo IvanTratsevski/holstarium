@@ -1,4 +1,4 @@
-import type { District, MapSlot, Post, SaleInfo, SocialLink, StallData } from "@/types";
+import type { District, MapSlot, MarketMap, Post, SaleInfo, SocialLink, StallData } from "@/types";
 import { pixelTheme } from "@/themes/pixel";
 
 export const themes = { [pixelTheme.id]: pixelTheme };
@@ -157,6 +157,12 @@ export const districts: District[] = [
     mapImage: "/maps/pixel_town.webp",
     mapWidth: 1536,
     mapHeight: 1024,
+    // pixel
+    area: {
+      points: [[100, 140], [1050, 80], [1040, 560], [960, 1260], [120, 1240], [130, 380]],
+      label: [570, 610],
+      color: "#5fa8d3",
+    },
   },
   {
   slug: "medieval",
@@ -165,6 +171,26 @@ export const districts: District[] = [
   themeId: "pixel",
   mapWidth: 2400,
   mapHeight: 1500,
+  // medieval
+  area: {
+    points: [[1050, 80], [2300, 160], [2280, 780], [960, 1260], [1040, 590]],
+    label: [1530, 570],
+    color: "#c97b5a",
+  },  
+  },
+  {
+  slug: "plaza",
+  name: "Центральная площадь",
+  description: "Для тех, кто не вписывается в стили других районов: реализм, абстракция, смешанные техники.",
+  themeId: "pixel",
+  mapWidth: 2400,
+  mapHeight: 1500,
+  // plaza
+  area: {
+    points: [[2280, 780], [2180, 1350], [960, 1260]],
+    label: [1810, 1130],
+    color: "#d4b25a",
+  },
 },
 ];
 
@@ -220,5 +246,14 @@ const pixelSlots: MapSlot[] = pixelPositions.map(([x, y], i) => ({
   stallSlug: pixelOccupied[i],
 }));
 
-export const slots: MapSlot[] = [...pixelSlots, ...medievalSlots];
+const plazaSlots: MapSlot[] = [
+  { id: "plaza-1", districtSlug: "plaza", x: 600, y: 600, size: 120 },
+  { id: "plaza-2", districtSlug: "plaza", x: 1000, y: 600, size: 120 },
+  { id: "plaza-3", districtSlug: "plaza", x: 1400, y: 600, size: 120 },
+  { id: "plaza-4", districtSlug: "plaza", x: 1800, y: 600, size: 120 },
+];
 
+export const slots: MapSlot[] = [...pixelSlots, ...medievalSlots, ...plazaSlots];
+
+// общий план рынка; когда появится картинка: image: "/maps/market.webp" и её реальные размеры
+export const marketMap: MarketMap = { width: 2400, height: 1400 };
