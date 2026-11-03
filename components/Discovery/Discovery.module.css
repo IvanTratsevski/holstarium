@@ -1,0 +1,55 @@
+.luckyWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.luckyBtn {
+  min-height: 3rem;
+  padding: 0 1.4rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.luckyBtn:hover,
+.luckyBtn:focus-visible {
+  border-color: var(--accent-strong);
+}
+
+.luckyBtn:focus-visible {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.luckyNote {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--bottomnav-h) + 4.5rem);
+  z-index: 60;
+  max-width: min(28rem, calc(100% - 2rem));
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  background: #222;
+  color: #fff;
+  font-size: 0.95rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 0.15s;
+}
+
+.toastOn {
+  opacity: 1;
+}

@@ -172,3 +172,65 @@ button.tag:focus-visible {
 .price strong {
   color: var(--warn);
 }
+
+.luckyLabel {
+  position: absolute;
+  top: 1.1rem;
+  left: 1rem;
+  z-index: 1;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffd166;
+  font-size: 0.9rem;
+}
+
+.luckyRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.luckyBack,
+.luckyNext {
+  min-height: 2.75rem;
+  padding: 0 1.2rem;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.luckyBack {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: #fff;
+}
+
+.luckyBack:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.luckyNext {
+  border: 1px solid #bf4e34;
+  background: #bf4e34;
+  color: #fff;
+}
+
+.luckyBack:focus-visible,
+.luckyNext:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

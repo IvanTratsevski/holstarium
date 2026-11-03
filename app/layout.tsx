@@ -7,6 +7,8 @@ import RequestProvider from "@/components/Requests/RequestProvider";
 import SiteHeader from "@/components/Layout/SiteHeader";
 import SiteFooter from "@/components/Layout/SiteFooter";
 import BottomNav from "@/components/Layout/BottomNav";
+import DiscoveryProvider from "@/components/Discovery/DiscoveryProvider";
+import { buildDiscoveryData } from "@/lib/discoveryData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +28,7 @@ export const metadata: Metadata = {
 const themeScript = `(function(){try{var p=localStorage.getItem("holstarium:theme");var d=p==="dark"||(p!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=d?"dark":"light"}catch(e){}})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const discovery = buildDiscoveryData();
   return (
     <html
       lang="ru" suppressHydrationWarning
@@ -37,13 +40,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <SocialProvider>
           <RequestProvider>
-            <SiteHeader />
-              <div id="content" tabIndex={-1} style={{ flex: "1 0 auto" }}>
-                {children}
-              </div>
-              <SiteFooter />
-              <BottomNav />
-              <DevBar />
+              <DiscoveryProvider data={discovery}>
+                <SiteHeader />
+                  <div id="content" tabIndex={-1} style={{ flex: "1 0 auto" }}>
+                    {children}
+                  </div>
+                  <SiteFooter />
+                  <BottomNav />
+                  <DevBar />
+              </DiscoveryProvider>
           </RequestProvider>
         </SocialProvider>
       </body>

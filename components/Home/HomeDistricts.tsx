@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { MapDistrictView, MarketMap } from "@/types";
+import LuckyButton from "@/components/Discovery/LuckyButton";
 import MarketMapView from "./MarketMapView";
 import styles from "./Home.module.css";
 
@@ -14,6 +15,8 @@ export default function HomeDistricts({ map, districts }: Props) {
   return (
     <>
       <MarketMapView map={map} districts={districts} active={active} onActive={setActive} />
+
+      <LuckyButton />
 
       <section aria-labelledby="districts-title">
         <h2 id="districts-title">Районы</h2>

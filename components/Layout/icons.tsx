@@ -48,3 +48,21 @@ export const IconUser = (p: SVGProps<SVGSVGElement>) => (
     <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
   </svg>
 );
+
+export const IconSearch = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <circle cx="11" cy="11" r="7" />
+    <path d="M20 20l-4-4" />
+  </svg>
+);
+
+export const IconDice = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <rect x="4" y="4" width="16" height="16" rx="3" />
+    <circle cx="9" cy="9" r="1" fill="currentColor" />
+    <circle cx="15" cy="9" r="1" fill="currentColor" />
+    <circle cx="12" cy="12" r="1" fill="currentColor" />
+    <circle cx="9" cy="15" r="1" fill="currentColor" />
+    <circle cx="15" cy="15" r="1" fill="currentColor" />
+  </svg>
+);

@@ -37,3 +37,10 @@
   padding: 0.5rem 0;
   color: var(--accent-text);
 }
+
+.theme {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThemeToggle from "@/components/Theme/ThemeToggle";
 import styles from "./SiteFooter.module.css";
 
 export default function SiteFooter() {
@@ -19,6 +20,10 @@ export default function SiteFooter() {
             </li>
           </ul>
         </nav>
+        <div className={styles.theme}>
+          <span>Тема:</span>
+          <ThemeToggle />
+        </div>
       </div>
     </footer>
   );

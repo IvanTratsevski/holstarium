@@ -2,6 +2,8 @@ import type { Role } from "@/lib/socialStore";
 
 export type NavLink = { href: string; label: string; match: (path: string) => boolean };
 
+export const OWN_STALL_SLUG = "anna";
+
 export const currentPath = (pathname: string) =>
   pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
 
@@ -37,7 +39,7 @@ export function profileLinks(role: Role): { href: string; label: string }[] {
     { href: "/following", label: "Мои подписки" },
   ];
   // в прототипе «своя лавка» это лавка Анны, в боевой версии ссылка строится по аккаунту
-  if (role === "owner") links.unshift({ href: "/stall/anna", label: "Моя лавка" });
+  if (role === "owner") links.unshift({ href: `/stall/${OWN_STALL_SLUG}`, label: "Моя лавка" });
   if (role === "admin") links.unshift({ href: "/admin", label: "Админ-панель" });
   return links;
 }
