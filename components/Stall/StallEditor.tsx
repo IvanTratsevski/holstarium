@@ -17,14 +17,16 @@ type Props = {
   stall: StallData;
   theme: Theme;
   tagCatalog: TagInfo[]; // новое
+  startTab?: "design" | "works";
+  autoOpenAdd?: boolean;
   onChange: (patch: Partial<StallData>) => void;
   onReset: () => void;
 };
 
-export default function StallEditor({ stall, theme, tagCatalog, onChange, onReset }: Props) {
+export default function StallEditor({ stall, theme, tagCatalog, startTab, autoOpenAdd, onChange, onReset }: Props) {
   const { state: social } = useSocial();
   const commentsOn = !social.commentsOffStalls.includes(stall.slug);
-  const [tab, setTab] = useState<"design" | "works">("design");
+  const [tab, setTab] = useState<"design" | "works">(startTab ?? "design");
   const links = stall.links ?? [];
   const counter = theme.counters.find((c) => c.id === stall.counterId) ?? theme.counters[0];
   const featuredCount = stall.artworks.filter((a) => a.isFeatured).length;
@@ -213,6 +215,7 @@ export default function StallEditor({ stall, theme, tagCatalog, onChange, onRese
     stall={stall}
     theme={theme}
     catalog={tagCatalog}
+    autoOpenAdd={autoOpenAdd}
     onChange={(artworks) => onChange({ artworks })}
   />
 )}

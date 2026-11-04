@@ -48,3 +48,27 @@
   object-fit: cover;
 }
 
+.wide {
+  display: none;
+}
+
+.narrow {
+  display: block;
+}
+
+@media (min-width: 720px) {
+  .wide {
+    display: block;
+  }
+
+  .narrow {
+    display: none;
+  }
+}
+
+/* на телефоне все работы уже в сетке, второй блок не нужен */
+@media (max-width: 719px) {
+  .gallery {
+    display: none;
+  }
+}

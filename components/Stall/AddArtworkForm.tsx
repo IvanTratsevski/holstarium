@@ -20,11 +20,12 @@ const EMPTY: ArtworkFieldsValue = {
 type Props = {
   catalog: TagInfo[];
   disabled: boolean;
+  defaultOpen?: boolean;
   onAdd: (art: Artwork) => void;
 };
 
-export default function AddArtworkForm({ catalog, disabled, onAdd }: Props) {
-  const [open, setOpen] = useState(false);
+export default function AddArtworkForm({ catalog, disabled, defaultOpen, onAdd }: Props) {
+  const [open, setOpen] = useState(!!defaultOpen);
   const [preview, setPreview] = useState<{ url: string; aspect: number | null } | null>(null);
   const [fields, setFields] = useState<ArtworkFieldsValue>(EMPTY);
   const [sale, setSale] = useState<SaleInfo | undefined>(undefined);

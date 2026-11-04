@@ -332,3 +332,9 @@
   background: transparent;
   color: inherit;
 }
+
+.orderOutline {
+  border-color: var(--border-strong);
+  background: transparent;
+  color: inherit;
+}

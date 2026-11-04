@@ -5,11 +5,12 @@ import type { LightboxItem, StallData, Theme } from "@/types";
 import { getStallLayout } from "@/lib/stallLayout";
 import { toTagList } from "@/lib/tags";
 import { withBase } from "@/lib/withBase";
-import Lightbox from "@/components/Lightbox/Lightbox";
-import Stall from "./Stall";
-import styles from "./StallView.module.css";
-import { useSocial } from "@/components/Social/SocialProvider";
 import AiBadge from "@/components/Badges/AiBadge";
+import Lightbox from "@/components/Lightbox/Lightbox";
+import { useSocial } from "@/components/Social/SocialProvider";
+import Stall from "./Stall";
+import StallGrid from "./StallGrid";
+import styles from "./StallView.module.css";
 
 type Props = { stall: StallData; theme: Theme };
 
@@ -19,21 +20,27 @@ export default function StallView({ stall, theme }: Props) {
   const { sorted, gallery } = getStallLayout(stall, theme);
 
   const lightboxItems: LightboxItem[] = sorted.map((a) => ({
-  ...a,
-  ref: `${stall.slug}:${a.id}`,
-  stallSlug: stall.slug,
-  authorName: stall.artistName,
-  acceptsOrders: stall.acceptsOrders,
-  tagList: toTagList(a.tags),
-}));
+    ...a,
+    ref: `${stall.slug}:${a.id}`,
+    stallSlug: stall.slug,
+    authorName: stall.artistName,
+    acceptsOrders: stall.acceptsOrders,
+    tagList: toTagList(a.tags),
+  }));
 
   const openById = (id: string) => {
     const i = sorted.findIndex((a) => a.id === id);
     if (i !== -1) setOpenIndex(i);
   };
+
   return (
     <div className={styles.root}>
-      <Stall stall={stall} theme={theme} onOpenArtwork={openById} />
+      <div className={styles.wide}>
+        <Stall stall={stall} theme={theme} onOpenArtwork={openById} />
+      </div>
+      <div className={styles.narrow}>
+        <StallGrid stall={stall} theme={theme} onOpenArtwork={openById} />
+      </div>
 
       {gallery.length > 0 && (
         <section className={styles.gallery}>
@@ -46,7 +53,9 @@ export default function StallView({ stall, theme }: Props) {
                   className={styles.item}
                   style={a.imageUrl ? undefined : { background: a.placeholderColor }}
                   onClick={() => openById(a.id)}
-                  aria-label={`Открыть работу: ${a.title}${a.aiGenerated ? " (создано с помощью ИИ)" : ""}`}
+                  aria-label={`Открыть работу: ${a.title}${
+                    a.aiGenerated ? " (создано с помощью ИИ)" : ""
+                  }`}
                 >
                   {a.imageUrl ? (
                     <img src={withBase(a.imageUrl)} alt="" className={styles.itemImage} />

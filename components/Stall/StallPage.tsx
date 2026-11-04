@@ -11,7 +11,8 @@ import StallEditor from "./StallEditor";
 import StallView from "./StallView";
 import styles from "./StallPage.module.css";
 
-type Tab = "stall" | "board" | "inbox";
+type View = "stall" | "board" | "inbox";
+type EditorStart = { key: number; tab: "design" | "works"; add: boolean };
 
 type Props = {
   initialStall: StallData;
@@ -23,15 +24,20 @@ type Props = {
 export default function StallPage({ initialStall, theme, tagCatalog, district }: Props) {
   // В прототипе роль задаётся общей панелью внизу. В боевой версии её определит сервер по сессии.
   const { state } = useSocial();
-  const [tab, setTab] = useState<Tab>("stall");
+  const [view, setView] = useState<View>("stall");
   const [editing, setEditing] = useState(false);
+  const [editorStart, setEditorStart] = useState<EditorStart>({
+    key: 0,
+    tab: "design",
+    add: false,
+  });
   const [stall, setStall] = useState<StallData>(initialStall);
   const [posts, setPosts] = useState<Post[]>(initialStall.posts ?? []);
 
   const isOwner = state.role === "owner";
-  // если роль сменили на странице «Входящие», возвращаемся на лавку
-  const activeTab: Tab = tab === "inbox" && !isOwner ? "stall" : tab;
-  const isEditing = isOwner && editing && activeTab === "stall";
+  // если роль сменили, находясь во «Входящих», возвращаемся на лавку
+  const activeView: View = view === "inbox" && !isOwner ? "stall" : view;
+  const isEditing = isOwner && editing && activeView === "stall";
 
   const newRequests = state.requests.filter(
     (r) => r.stallSlug === stall.slug && r.status === "new"
@@ -39,11 +45,27 @@ export default function StallPage({ initialStall, theme, tagCatalog, district }:
 
   const patch = (p: Partial<StallData>) => setStall((s) => ({ ...s, ...p }));
 
+  const toggleEdit = () => {
+    if (isEditing) {
+      setEditing(false);
+      return;
+    }
+    setView("stall");
+    setEditorStart((s) => ({ key: s.key + 1, tab: "design", add: false }));
+    setEditing(true);
+  };
+
+  const newWork = () => {
+    setView("stall");
+    setEditorStart((s) => ({ key: s.key + 1, tab: "works", add: true }));
+    setEditing(true);
+  };
+
   return (
     <div className={styles.page}>
       <p className={styles.top}>
         <Link href={district ? `/district/${district.slug}` : "/"}>
-          ← {district ? "К району" : "Рынок"}
+          ← {district ? district.name : "Рынок"}
         </Link>
       </p>
 
@@ -51,51 +73,51 @@ export default function StallPage({ initialStall, theme, tagCatalog, district }:
         <div className={styles.ownerBar} role="region" aria-label="Панель владельца">
           <strong>{isEditing ? "Режим редактирования" : "Это ваша лавка"}</strong>
           <span className={styles.note}>В прототипе изменения не сохраняются</span>
-          {activeTab === "stall" && (
-            <button type="button" onClick={() => setEditing((e) => !e)}>
+          <div className={styles.ownerActions}>
+            <button type="button" className={styles.primary} onClick={toggleEdit}>
               {isEditing ? "Готово" : "Редактировать лавку"}
             </button>
-          )}
+            <button type="button" onClick={newWork}>
+              + Новая работа
+            </button>
+            <button type="button" onClick={() => setView("inbox")}>
+              Входящие{newRequests > 0 ? ` · ${newRequests}` : ""}
+            </button>
+          </div>
         </div>
       )}
 
-      <ArtistHeader stall={stall} district={district} showFollow={!isOwner} />
+      <ArtistHeader stall={stall} district={district} showActions={!isOwner} />
 
       <div className={styles.tabs}>
         <div className={styles.toggle} role="group" aria-label="Раздел страницы художника">
           <button
             type="button"
-            aria-pressed={activeTab === "stall"}
-            onClick={() => setTab("stall")}
+            aria-pressed={activeView === "stall"}
+            onClick={() => setView("stall")}
           >
             Лавка
           </button>
           <button
             type="button"
-            aria-pressed={activeTab === "board"}
-            onClick={() => setTab("board")}
+            aria-pressed={activeView === "board"}
+            onClick={() => setView("board")}
           >
             Объявления ({posts.length})
           </button>
-          {isOwner && (
-            <button
-              type="button"
-              aria-pressed={activeTab === "inbox"}
-              onClick={() => setTab("inbox")}
-            >
-              Входящие{newRequests > 0 ? ` (${newRequests})` : ""}
-            </button>
-          )}
         </div>
       </div>
 
-      {activeTab === "stall" && (
+      {activeView === "stall" && (
         <div className={isEditing ? styles.withEditor : undefined}>
           {isEditing && (
             <StallEditor
+              key={editorStart.key}
               stall={stall}
               theme={theme}
               tagCatalog={tagCatalog}
+              startTab={editorStart.tab}
+              autoOpenAdd={editorStart.add}
               onChange={patch}
               onReset={() => setStall(initialStall)}
             />
@@ -106,7 +128,7 @@ export default function StallPage({ initialStall, theme, tagCatalog, district }:
         </div>
       )}
 
-      {activeTab === "board" && (
+      {activeView === "board" && (
         <div className={styles.boardWrap}>
           <div className={styles.boardInner}>
             <PostBoard stall={stall} posts={posts} onChange={setPosts} isOwner={isOwner} />
@@ -114,9 +136,12 @@ export default function StallPage({ initialStall, theme, tagCatalog, district }:
         </div>
       )}
 
-      {activeTab === "inbox" && (
+      {activeView === "inbox" && (
         <div className={styles.boardWrap}>
           <div className={styles.boardInner}>
+            <button type="button" className={styles.back} onClick={() => setView("stall")}>
+              ← К лавке
+            </button>
             <Inbox stallSlug={stall.slug} />
           </div>
         </div>

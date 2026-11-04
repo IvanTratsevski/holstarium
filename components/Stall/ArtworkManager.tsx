@@ -22,10 +22,11 @@ type Props = {
   stall: StallData;
   theme: Theme;
   catalog: TagInfo[];
+  autoOpenAdd?: boolean;
   onChange: (artworks: Artwork[]) => void;
 };
 
-export default function ArtworkManager({ stall, theme, catalog, onChange }: Props) {
+export default function ArtworkManager({ stall, theme, catalog, autoOpenAdd, onChange }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [status, setStatus] = useState("");
@@ -72,6 +73,7 @@ export default function ArtworkManager({ stall, theme, catalog, onChange }: Prop
       <AddArtworkForm
         catalog={catalog}
         disabled={sorted.length >= MAX_ARTWORKS}
+        defaultOpen={autoOpenAdd}
         onAdd={(art) => {
           onChange(addArtwork(stall.artworks, art));
           setStatus(`«${art.title}» добавлена в начало`);
