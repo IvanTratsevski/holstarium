@@ -116,6 +116,36 @@
   font-weight: 500;
 }
 
+.hintPhone {
+  display: none;
+}
+
+/* телефон: карта в высоком окне, рисунок по высоте заполняет окно и двигается пальцем */
+@media (max-width: 719px) {
+  .wrapper {
+    height: 68vh !important;
+    height: min(68svh, 34rem) !important;
+  }
+
+  .content {
+    width: max-content !important;
+    height: 100% !important;
+  }
+
+  .svg {
+    width: auto;
+    height: 100%;
+  }
+
+  .hintDesktop {
+    display: none;
+  }
+
+  .hintPhone {
+    display: inline;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .area polygon {
     transition: none;

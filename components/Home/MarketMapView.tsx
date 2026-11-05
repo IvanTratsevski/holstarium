@@ -8,10 +8,10 @@ import type { MapDistrictView, MarketMap } from "@/types";
 import { withBase } from "@/lib/withBase";
 import styles from "./Home.module.css";
 
-const MAX_SCALE = 5;
+const MAX_SCALE = 4;
 const NAME_PX = 14; // размер названия на экране
 const SUB_PX = 12;  // размер строки со счётчиками
-const DRAG_PX = 6;  // насколько надо сдвинуть мышь, чтобы это считалось перетаскиванием
+const DRAG_PX = 8;  // насколько надо сдвинуть палец или мышь, чтобы это считалось перетаскиванием
 
 type Props = {
   map: MarketMap;
@@ -22,19 +22,21 @@ type Props = {
 
 export default function MarketMapView({ map, districts, active, onActive }: Props) {
   const router = useRouter();
-  const rootRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const downPos = useRef<{ x: number; y: number } | null>(null);
   const [scale, setScale] = useState(1);
-  const [width, setWidth] = useState(0); // ширина карты на экране, нужна для размера подписей
+  const [width, setWidth] = useState(0); // ширина рисунка на экране без учёта приближения
 
   const { width: w, height: h } = map;
   const mode = map.labels ?? "always";
 
   useEffect(() => {
-    const el = rootRef.current;
+    const el = svgRef.current;
     if (!el) return;
     // наблюдатель сработает сразу при подключении и дальше при каждом изменении размера
-    const observer = new ResizeObserver(() => setWidth(el.clientWidth));
+    const observer = new ResizeObserver((entries) => {
+      setWidth(entries[0].contentRect.width);
+    });
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -43,7 +45,8 @@ export default function MarketMapView({ map, districts, active, onActive }: Prop
   const unit = width > 0 ? w / (width * scale) : 1;
   const nameSize = NAME_PX * unit;
   const subSize = SUB_PX * unit;
-  const crowded = width < 700 && scale < 2; // на узком экране подписи без приближения слипаются
+  // пока карта мелкая, подписи слипаются; на телефоне рисунок уже крупный, но и там ждём приближения
+  const crowded = width * scale < 1000 && scale < 1.5;
 
   const open = (slug: string) => router.push(`/district/${slug}`);
 
@@ -66,13 +69,14 @@ export default function MarketMapView({ map, districts, active, onActive }: Prop
       <TransformWrapper
         minScale={1}
         maxScale={MAX_SCALE}
+        centerOnInit
         wheel={{ activationKeys: ["Control", "Meta"], step: 0.15 }}
         panning={{ velocityDisabled: true }}
         doubleClick={{ disabled: true }}
         onTransform={(_, s) => setScale(Math.round(s.scale * 20) / 20)}
       >
         {({ zoomIn, zoomOut, resetTransform }) => (
-          <div ref={rootRef} className={styles.mapRoot}>
+          <div className={styles.mapRoot}>
             <div className={styles.controls}>
               <button
                 type="button"
@@ -90,12 +94,7 @@ export default function MarketMapView({ map, districts, active, onActive }: Prop
               >
                 −
               </button>
-              <button
-                type="button"
-                onClick={() => resetTransform()}
-                disabled={scale <= 1}
-                aria-label="Сбросить масштаб"
-              >
+              <button type="button" onClick={() => resetTransform()} aria-label="Вернуть карту на место">
                 ⟲
               </button>
             </div>
@@ -106,8 +105,10 @@ export default function MarketMapView({ map, districts, active, onActive }: Prop
               wrapperStyle={{ touchAction: scale > 1 ? "none" : "pan-y" }}
             >
               <svg
+                ref={svgRef}
                 viewBox={`0 0 ${w} ${h}`}
                 className={styles.svg}
+                style={{ aspectRatio: `${w} / ${h}` }}
                 role="group"
                 aria-label="Карта рынка: нажмите на район, чтобы увидеть его лавки"
               >
@@ -199,8 +200,14 @@ export default function MarketMapView({ map, districts, active, onActive }: Prop
       </TransformWrapper>
 
       <p className={styles.mapHint}>
-        Приближайте карту кнопками «+» и «−», колесом мыши с Ctrl или щипком пальцев. Чтобы
-        двигать карту, перетащите её.
+        <span className={styles.hintDesktop}>
+          Приближайте карту кнопками «+» и «−» или колесом мыши с Ctrl. Чтобы двигать карту,
+          перетащите её.
+        </span>
+        <span className={styles.hintPhone}>
+          Двигайте карту пальцем, приближайте щипком или кнопками «+» и «−». Все районы также
+          перечислены ниже.
+        </span>
       </p>
     </>
   );
