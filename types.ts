@@ -245,7 +245,7 @@ export type DistrictArea = {
   color: string;              // цвет заливки
 };
 
-export type MarketMap = { width: number; height: number; image?: string };
+export type MarketMap = { width: number; height: number; image?: string; labels?: "always" | "hover"; };
 
 export type MapDistrictView = {
   slug: string;

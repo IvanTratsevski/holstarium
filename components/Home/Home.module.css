@@ -1,17 +1,70 @@
 .mapRoot {
+  position: relative;
   max-width: 1400px;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 0.5rem;
   overflow: hidden;
   border: 2px solid var(--border);
   border-radius: 12px;
   background: #111;
 }
 
+.wrapper,
+.content {
+  width: 100% !important;
+}
+
 .svg {
   display: block;
   width: 100%;
   height: auto;
+  cursor: grab;
   user-select: none;
+}
+
+.svg:active {
+  cursor: grabbing;
+}
+
+.controls {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.controls button {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.controls button:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.controls button:focus-visible {
+  outline: 3px solid #ffd166;
+  outline-offset: 2px;
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.mapHint {
+  max-width: 1400px;
+  margin: 0 auto 1rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
 }
 
 .area {
@@ -19,50 +72,48 @@
   outline: none;
 }
 
+/* толщина обводки в пикселях экрана, а не в единицах карты: на любом масштабе тонкая */
 .area polygon {
-  fill-opacity: 0.38;
-  stroke: rgba(255, 255, 255, 0.65);
-  stroke-width: 6;
+  fill-opacity: 0.14;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 2;
   stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
   transition: fill-opacity 0.15s;
 }
 
 .area[data-active="true"] polygon,
 .area:hover polygon {
-  fill-opacity: 0.68;
+  fill-opacity: 0.4;
   stroke: #fff;
-  stroke-width: 10;
+  stroke-width: 3;
 }
 
 .area:focus-visible polygon {
-  fill-opacity: 0.68;
+  fill-opacity: 0.4;
   stroke: #ffd166;
-  stroke-width: 14;
+  stroke-width: 4;
+}
+
+.labels {
+  pointer-events: none;
 }
 
 .name,
 .sub {
   fill: #fff;
-  font-weight: 700;
-  stroke: rgba(0, 0, 0, 0.75);
+  stroke: rgba(0, 0, 0, 0.8);
   paint-order: stroke;
-  pointer-events: none;
+  stroke-linejoin: round;
 }
 
 .name {
-  stroke-width: 12px;
+  font-family: var(--font-heading), Georgia, serif;
+  font-weight: 700;
 }
 
 .sub {
-  stroke-width: 8px;
   font-weight: 500;
-}
-
-/* на узких экранах мелкая подпись нечитаема, остаётся только название */
-@media (max-width: 719px) {
-  .sub {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
