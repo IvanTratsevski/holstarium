@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { bodyFont, headingFont } from "./fonts"
 import "./globals.css";
 import SocialProvider from "@/components/Social/SocialProvider";
 import DevBar from "@/components/Social/DevBar";
@@ -9,16 +9,6 @@ import SiteFooter from "@/components/Layout/SiteFooter";
 import BottomNav from "@/components/Layout/BottomNav";
 import DiscoveryProvider from "@/components/Discovery/DiscoveryProvider";
 import { buildDiscoveryData } from "@/lib/discoveryData";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -32,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="ru" suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${bodyFont.variable} ${headingFont.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

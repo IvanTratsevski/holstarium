@@ -91,6 +91,7 @@
   letter-spacing: 0.02em;
   text-transform: uppercase;
   opacity: 0.7;
+  font-family: var(--font-body), system-ui, sans-serif;
 }
 
 .more {

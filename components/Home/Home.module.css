@@ -179,3 +179,7 @@
   color: #fff;
   text-align: center;
 }
+
+.name {
+  font-family: var(--font-heading), Georgia, serif;
+}
